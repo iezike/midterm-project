@@ -8,5 +8,6 @@ VALUES (1, 'Summer drink', 'How to make frozens margaritas', 'diy', 'https://www
 (5, 'Mountain Village', 'Image credit Matej Jan', 'art', 'https://cdn.mos.cms.futurecdn.net/jbCNvTM4gwr2qV8X8fW3ZB.png'),
 (6, 'Peaceful Valley', 'Image credit Jubilee', 'art', 'https://cdn.mos.cms.futurecdn.net/EFXSes9UCfsyRVoNeQ2ZTB-970-80.png.webp'),
 (7, 'Workouts for men', 'A guide to workout for men', 'guides', 'https://www.muscleandstrength.com/workouts/men'),
-(8, 'Easter Eggs GTA V', 'Where to find all the easter eggs in GTA V', 'guides', 'https://screenrant.com/grand-theft-auto-hidden-tips-hints-gta-5/'),
-(9,)
+(8, 'Secrets in GTA V', 'Where to find the secret things in GTA V', 'guides', 'https://screenrant.com/grand-theft-auto-hidden-tips-hints-gta-5/'),
+(9, 'Beautiful Garden', 'Learn how to garden', 'gardening', 'https://www.gardendesign.com/how-to/'),
+(10, "My favourite song", 'Its a secret', 'songs', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
