@@ -37,12 +37,13 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
-
+const addResourcesRoutes = require("./routes/add_resources");
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
+app.use('/resources', addResourcesRoutes(db));
 
 // Home page
 // Warning: avoid creating more routes in this file!
@@ -51,6 +52,24 @@ app.use("/api/widgets", widgetsRoutes(db));
 app.get("/", (req, res) => {
   res.render("index");
 });
+
+// app.get('/resources/add', (req, res) => {
+//   res.render('add_resources')
+// })
+
+// app.post("/resources/add", (req, res) => {
+//   db.query(`INSERT INTO resources (owner_id, title, description, topic, external_url)
+//   VALUES ($1, $2, $3, $4, $5) RETURNING *`, [db.owner_id, db.title, db.description, db.topic, db.external_url])
+//     .then(result => {
+//       console.log(result.rows[0]);
+//       return result.rows[0]
+//     })
+//     .catch(err => {
+//       res
+//         .status(500)
+//         .json({ error: err.message });
+//     });
+// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
