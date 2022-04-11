@@ -1,5 +1,8 @@
+
 node_modules/
 public/styles
 .env
 *.log
 *.sqlite3
+
+/Users/ikennaezike/lighthouse/midterm-project/db/schema/user
