@@ -8,7 +8,13 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const dbQueries = require('./helpers.js')
+// const { getUserByEmail, getUserId} = require('./helpers.js')
+const cookieSession = require('cookie-session');
 
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
