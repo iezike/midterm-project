@@ -6,38 +6,36 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 
 module.exports = (db) => {
   const addResource = (owner_id, title, description, topic, external_url) => {
     const queryString = `INSERT INTO resources (owner_id, title, description, topic, external_url)
-    VALUES ($1, $2, $3, $4, $5) RETURNING *`
+    VALUES ($1, $2, $3, $4, $5) RETURNING *`;
 
-    // const queryParams = [owner_id, title, description, topic, external_url]
-
-    return db.query(queryString, [owner_id, title, description, topic, external_url])
-  }
+    return db.query(queryString, [owner_id, title, description, topic, external_url]);
+  };
 
   router.get('/add', (req, res) => {
-    res.render('add_resources')
-  })
+    res.render('add_resources');
+  });
 
 
 
   router.post('/add', (req, res) => {
     const resource = req.body;
-    const owner = resource.owner_id;
     const title = resource.title;
     const description = resource.description;
     const url = resource.url;
     const topic = resource.topic;
-    // const owner = req.session.userID;
+    const owner = req.session.userID;
 
     addResource(owner, title, description, topic, url)
       .then(result => {
-        console.log(result.rows);
-        return result.rows
+        console.log('are you my answer', result.rows[0]);
+        // return result.rows[0];
+        res.redirect('/')
       })
       .catch(err => {
         res
