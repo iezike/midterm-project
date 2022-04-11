@@ -26,13 +26,13 @@ module.exports = (db) => {
 
 
   router.post('/add', (req, res) => {
-    console.log(req.body);
     const resource = req.body;
     const owner = resource.owner_id;
     const title = resource.title;
     const description = resource.description;
     const url = resource.url;
     const topic = resource.topic;
+    // const owner = req.session.userID;
 
     addResource(owner, title, description, topic, url)
       .then(result => {
