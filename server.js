@@ -8,6 +8,12 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const dbQueries = require('./helpers.js')
+const cookieSession = require('cookie-session');
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
 // PG database client/connection setup
 const { Pool } = require("pg");
@@ -54,11 +60,6 @@ app.use("/api/login", loginRoutes(db, dbQueries));
 app.get("/", (req, res) => {
   res.render("index");
 });
-
-// app.get("/login", (req, res) => {
-//   const templateVars = { user: null }
-//   res.render("login", templateVars);
-// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

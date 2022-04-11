@@ -9,6 +9,7 @@ module.exports = (db, dbQueries) => {
     res.render("login", templateVars);
   });
 
+
   router.post("/", (req, res) => {
     const { email, password } = req.body
 
@@ -17,6 +18,7 @@ module.exports = (db, dbQueries) => {
     dbQueries.getUserByEmail(email, password, db)
     .then(user => {
       if(user) {
+        req.session.userID = user.id;
         res.render('index', { user })
       }
     })
