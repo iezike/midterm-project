@@ -1,6 +1,7 @@
 const express = require('express');
 const { route } = require('express/lib/application');
 const router  = express.Router();
+// const addUser = require("./helpers");
 
 
 
@@ -35,20 +36,18 @@ const addUser =  function(name, email, password) {
   })
   // Create a new user
   router.post('/', (req, res) => {
-    console.log("this is req.body", req.body)
     const user = req.body;
     const name = user.name;
     const password = user.password;
     const email = user.email
     addUser(name, email, password)
     .then(result => {
-      // if (!user) {
-      //   res.send({error: "error"});
-      //   return;
-      // }
-      // req.session.userId = user.id;
-      console.log("We are here", result.rows[0]);
-      return result.rows[0];
+      if (!user) {
+        res.send({error: "error"});
+        return;
+      }
+      req.session.userId = user.id;
+      // return result.rows[0];
       res.render('index')
     })
     .catch(e => res.send(e));
