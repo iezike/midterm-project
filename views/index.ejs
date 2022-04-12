@@ -17,6 +17,25 @@
   <div>
   <h1>Have fun! 🥔</h1>
   </div>
+  <% for (let i of results.rows) { %>
+    <div class="a">
+      <img src=
+      <%= i.title %>
+      <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>Star rating using pure CSS</title>
+      </head>
+      <br>
+      <%= i.description %>
+      <br>
+      <%= i.topic %>
+      <br>
+      <%= i.average_rating %>
+      <br>
+      <a href='<%= i.external_url %>'><%= i.external_url %></a>
+    </div>
+      <% } %>
 </body>
 
 </html>

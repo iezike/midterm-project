@@ -33,7 +33,7 @@ module.exports = (db) => {
 
     addResource(owner, title, description, topic, url)
       .then(result => {
-        console.log('are you my answer', result.rows[0]);
+        console.log('add resource test here: ', result.rows[0]);
         // return result.rows[0];
         res.redirect('/')
       })

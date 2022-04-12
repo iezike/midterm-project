@@ -12,7 +12,7 @@ module.exports = (db, dbQueries) => {
   });
 
   router.post("/login", (req, res) => {
-    console.log('Here!!!!!!')
+    console.log('/login route here: ')
     const { email, password } = req.body
     if(!req.body.email || !req.body.password) return res.status(401).send('Wrong email or password')
 
@@ -30,8 +30,5 @@ module.exports = (db, dbQueries) => {
       console.log(error);
     })
   });
-
-
-
   return router;
 }
