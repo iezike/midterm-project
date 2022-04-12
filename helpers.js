@@ -17,4 +17,6 @@ const getUserByEmail = function (email, password, db) {
 
 module.exports = {
   getUserByEmail,
+  // getUserId
 }
+
