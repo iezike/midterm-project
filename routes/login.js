@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const bcrypt = require("bcryptjs");
-const { getUserId, getUserByEmail } = require('../helpers');
+// const { getUserId, getUserByEmail } = require('../helpers');
 
 module.exports = (db, dbQueries) => {
 
@@ -21,7 +21,11 @@ module.exports = (db, dbQueries) => {
     .then(user => {
       console.log('user:', user)
       if(user) {
+<<<<<<< HEAD
         console.log('user:', user)
+=======
+        console.log('helloasdads',req.session.userID);
+>>>>>>> ed03cd027e70eef33bd1ca56dee532fce9e50766
         req.session.userID = user.id;
         res.render('index', { user })
       }

@@ -7,18 +7,16 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const bcrypt = require("bcryptjs");
+
+const cookieSession = require("cookie-session")
+app.use(cookieSession({
+  name: "session",
+  keys: ["key1", "key2"]
+}))
+
 const dbQueries = require('./helpers.js')
-const cookieSession = require('cookie-session');
 
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}))
-
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}))
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
@@ -51,14 +49,18 @@ const widgetsRoutes = require("./routes/widgets");
 const loginRoutes = require("./routes/login");
 const addResourcesRoutes = require("./routes/add_resources");
 
+const registerRoutes = require("./routes/register");
+const favouriteRoutes = require("./routes/my_favourites");
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-// app.use("/api/users", usersRoutes(db));
+app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 app.use("/auth/", loginRoutes(db, dbQueries));
+app.use("/api/register", registerRoutes(db));
+
 // Note: mount other resources here, using the same pattern above
 app.use('/resources', addResourcesRoutes(db));
-
+app.use('/favourites', favouriteRoutes(db));
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
