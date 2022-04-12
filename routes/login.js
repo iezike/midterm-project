@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const bcrypt = require("bcryptjs");
+const { getUserId, getUserByEmail } = require('../helpers');
 
 module.exports = (db, dbQueries) => {
 
@@ -10,7 +11,7 @@ module.exports = (db, dbQueries) => {
     res.render("login", templateVars);
   });
 
-  router.post("/", (req, res) => {
+  router.post("/login", (req, res) => {
     console.log('Here!!!!!!')
     const { email, password } = req.body
     if(!req.body.email || !req.body.password) return res.status(401).send('Wrong email or password')
@@ -29,6 +30,8 @@ module.exports = (db, dbQueries) => {
       console.log(error);
     })
   });
+
+
 
   return router;
 }

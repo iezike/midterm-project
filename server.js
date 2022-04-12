@@ -15,6 +15,10 @@ app.use(cookieSession({
   keys: ['key1', 'key2']
 }))
 
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
@@ -45,13 +49,15 @@ app.use(express.static("public"));
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
 const loginRoutes = require("./routes/login");
+const addResourcesRoutes = require("./routes/add_resources");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // app.use("/api/users", usersRoutes(db));
-// app.use("/api/widgets", widgetsRoutes(db));
-app.use("/auth", loginRoutes(db, dbQueries));
+app.use("/api/widgets", widgetsRoutes(db));
+app.use("/auth/", loginRoutes(db, dbQueries));
 // Note: mount other resources here, using the same pattern above
+app.use('/resources', addResourcesRoutes(db));
 
 // Home page
 // Warning: avoid creating more routes in this file!
@@ -62,7 +68,10 @@ app.get("/", (req, res) => {
   res.redirect("/auth/login");
 });
 
-
+app.post('/logout', (req, res) => {
+  req.session = null;
+  res.redirect('/');
+})
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
