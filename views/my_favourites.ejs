@@ -14,18 +14,15 @@
 </head>
 <body>
   <%- include('partials/_headers')%>
-  <% for (let  i = 0; i < info.length; i++) { %>
-  <div>
-    <%= info[i].title %>
-    <br>
-    <%= info[i].description %>
-    <br>
-    <%= info[i].topic %>
-    <br>
-    <%= info[i].average_rating %>
-    <br>
-    <a href='<%= info[0].external_url %>'><%= info[i].external_url %></a>
-    
+  <% for (let result of results.rows) { %>
+    <div class="resource-info">
+    <p class='info'><%= result.title %></p>
+    <p class='info'><%= result.description %></p>
+    <p class='info'><%= result.topic %></p>
+    <p class='info'><%= (Math.floor(result.rating * 100)/100).toFixed(2) %></p>
+    <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
+    <footer class="footers"><%=result.comment%>-<%= result.name%></footer>
+</div>
     <% } %>
 
     <h1>Have fun! 🥔</h1>
