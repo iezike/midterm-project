@@ -7,18 +7,16 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const bcrypt = require("bcryptjs");
+
+const cookieSession = require("cookie-session")
+app.use(cookieSession({
+  name: "session",
+  keys: ["key1", "key2"]
+}))
+
 const dbQueries = require('./helpers.js')
-const cookieSession = require('cookie-session');
 
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}))
-
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}))
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
@@ -48,13 +46,16 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+const registerRoutes = require("./routes/register");
 const addResourcesRoutes = require("./routes/add_resources");
 const loginRoutes = require("./routes/login")
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-// app.use("/api/users", usersRoutes(db));
+app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
+app.use("/api/register", registerRoutes(db));
+// app.use("/api/widgets", widgetsRoutes(db));
 app.use("/api/login", loginRoutes(db, dbQueries));
 // Note: mount other resources here, using the same pattern above
 app.use('/resources', addResourcesRoutes(db));

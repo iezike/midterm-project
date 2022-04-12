@@ -20,6 +20,7 @@ module.exports = (db, dbQueries) => {
     dbQueries.getUserByEmail(email, password, db)
     .then(user => {
       if(user) {
+        console.log('helloasdads',req.session.userID);
         req.session.userID = user.id;
         res.render('index', { user })
       }
