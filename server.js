@@ -8,8 +8,12 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const dbQueries = require('./helpers.js')
-// const { getUserByEmail, getUserId} = require('./helpers.js')
 const cookieSession = require('cookie-session');
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
 app.use(cookieSession({
   name: 'session',
@@ -62,27 +66,6 @@ app.use('/resources', addResourcesRoutes(db));
 app.get("/", (req, res) => {
   res.render("index");
 });
-
-// app.get('/resources/add', (req, res) => {
-//   res.render('add_resources')
-// })
-
-// app.post("/resources/add", (req, res) => {
-//   db.query(`INSERT INTO resources (owner_id, title, description, topic, external_url)
-//   VALUES ($1, $2, $3, $4, $5) RETURNING *`, [db.owner_id, db.title, db.description, db.topic, db.external_url])
-//     .then(result => {
-//       console.log(result.rows[0]);
-//       return result.rows[0]
-//     })
-//     .catch(err => {
-//       res
-//         .status(500)
-//         .json({ error: err.message });
-//     });
-// app.get("/login", (req, res) => {
-//   const templateVars = { user: null }
-//   res.render("login", templateVars);
-// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

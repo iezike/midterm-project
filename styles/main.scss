@@ -1,11 +1,43 @@
 .nav-bar {
   display: flex;
-  
-}
-// header {
-//   display: flex;
 
-// }
+}
+.add-resource {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-add {
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.description {
+  display: flex;
+  align-items: center;
+  padding-bottom: .5em;
+}
+
+.form-inline {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  border: 3px solid black;
+}
+
+#button-add {
+  display: flex;
+  justify-content: center;
+  padding-bottom: .5em
+}
+
+textarea {
+  height: 100px
+}
+
+
 body {
   // display: flex;
   // justify-content: center;
