@@ -13,10 +13,25 @@
   <script type="text/javascript" src="/scripts/app.js"></script>
 </head>
 <body>
-    <%- include('partials/_headers')%>
+  <%- include('partials/_headers')%>
+  <% for (let  i = 0; i < info.length; i++) { %>
   <div>
-  <h1>Have fun! 🥔</h1>
-  </div>
+    <%= info[i].title %>
+    <br>
+    <%= info[i].description %>
+    <br>
+    <%= info[i].topic %>
+    <br>
+    <%= info[i].average_rating %>
+    <br>
+    <a href='<%= info[0].external_url %>'><%= info[i].external_url %></a>
+    
+    <% } %>
+
+    <h1>Have fun! 🥔</h1>
+
+
+</div>
 </body>
 
 </html>

@@ -49,7 +49,7 @@ const widgetsRoutes = require("./routes/widgets");
 const registerRoutes = require("./routes/register");
 const addResourcesRoutes = require("./routes/add_resources");
 const loginRoutes = require("./routes/login")
-const favouritesRoutes = require('.routes/my_favourites');
+const favouriteRoutes = require("./routes/my_favourites");
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
@@ -58,7 +58,7 @@ app.use("/api/register", registerRoutes(db));
 app.use("/api/login", loginRoutes(db, dbQueries));
 // Note: mount other resources here, using the same pattern above
 app.use('/resources', addResourcesRoutes(db));
-app.use('/favourites', favouritesRoutes(db));
+app.use('/favourites', favouriteRoutes(db));
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
