@@ -46,7 +46,7 @@ module.exports = (db) => {
     const queryString = `
     SELECT resources.*, avg(rating) as rating
     FROM resources
-    JOIN resource_reviews ON resource_reviews.resource_id = resources.id
+    LEFT JOIN resource_reviews ON resource_reviews.resource_id = resources.id
     WHERE resources.id = $1
     GROUP BY resources.id
     `;
