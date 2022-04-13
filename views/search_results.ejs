@@ -12,23 +12,23 @@
   <script type="text/javascript" src="/scripts/app.js"></script>
 </head>
 <body>
-    <%- include('partials/_headers')%>
-  <div>
-  <h1>Have fun! 🥔</h1>
-  </div>
-  <% for (let i of results.rows) { %>
-    <div class="a">
-      <%= i.title %>
-      <br>
-      <%= i.description %>
-      <br>
-      <%= i.topic %>
-      <br>
-      <%= i.average_rating %>
-      <br>
-      <a href='<%= i.external_url %>'><%= i.external_url %></a>
-    </div>
-      <% } %>
+  <%- include('partials/_headers')%>
+  <% for (let result of results.rows) { %>
+    <div class="resource-data">
+    <h3 class='info'><%= result.title %></h3>
+    <p class='info'><%= result.description %></p>
+    <p class='info'>Category: <%= result.topic %></p>
+    <p class='info'>Rating: <%= (Math.floor(result.rating * 100)/100).toFixed(2) %> / 5</p>
+    <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
+    <td>
+      <form method="GET" action="/favourites/<%=result.id%>">
+        <button type="submit">Show Comments</button>
+      </form>
+    </td>
+</div>
+    <% } %>
+    <h1>Have fun! 🥔</h1>
+</div>
 </body>
 
 </html>
