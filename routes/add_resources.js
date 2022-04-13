@@ -10,12 +10,22 @@ const router = express.Router();
 
 
 module.exports = (db) => {
-  const addResource = (owner_id, title, description, topic, external_url) => {
+  const addResource = (owner_id, title, description, topic, external_url, user_id, resource_id) => {
     const queryString = `INSERT INTO resources (owner_id, title, description, topic, external_url)
-    VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    VALUES ($1, $2, $3, $4, $5) RETURNING *`
 
     return db.query(queryString, [owner_id, title, description, topic, external_url]);
   };
+
+
+const addToFavourites = (user_id, resource_id) => {
+  const queryString =`
+    INSERT INTO favourites (user_id, resource_id)
+    VALUES ($1, $2) RETURNING *`
+
+
+return db.query(queryString, [user_id, resource_id]);
+}
 
   router.get('/add', (req, res) => {
     res.render('add_resources');
@@ -30,18 +40,19 @@ module.exports = (db) => {
     const url = resource.url;
     const topic = resource.topic;
     const owner = req.session.userID;
-
     addResource(owner, title, description, topic, url)
       .then(result => {
         console.log('are you my answer', result.rows[0]);
-        // return result.rows[0];
+        console.log('id', result.rows[0].id);
+        addToFavourites(owner, result.rows[0].id)
         res.redirect('/')
-      })
-      .catch(err => {
-        res
+        })
+
+        .catch(err => {
+          res
           .status(500)
           .json({ error: err.message });
-      });
+        });
   });
   return router;
 };
