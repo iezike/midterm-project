@@ -8,5 +8,6 @@ CREATE TABLE resource_reviews (
   NULL,
   comment TEXT,
   rating INTEGER,
-  liked BOOLEAN DEFAULT FALSE
+  liked BOOLEAN DEFAULT FALSE,
+  like_count INTEGER
 );

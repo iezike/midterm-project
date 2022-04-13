@@ -23,3 +23,25 @@ module.exports = (db) => {
   });
   return router;
 }
+
+const likeCounter = document.createElement("span")
+
+fetch("http://localhost:8080/index")
+  .then((resp) => resp.json())
+  .then((currentLikeData) =>
+    setLikeCounter(currentLikeData, id, likeCounter)
+  );
+
+  function setLikeCounter(currentLikeData, id, likeCounter) {
+    const likedContent = currentLikeData.find(
+      (element) => element["id"] === id.innerText
+    );
+
+    if(typeof likedContent === "undefined") {
+      likeCounter.innerText = "0 likes";
+    } else if (likedContent === 1) {
+      likeCounter.innerText = "1 like";
+    } else {
+    likeCounter.innerText = `${likedContent["likes"]} likes`;
+    }
+  }
