@@ -17,20 +17,20 @@
   <div>
   <h1>Have fun! 🥔</h1>
   </div>
-  <% for (let i of results.rows) { %>
-    <div class="a">
-      <img src=
-      <%= i.title %>
-      <br>
-      <%= i.description %>
-      <br>
-      <%= i.topic %>
-      <br>
-      <%= i.average_rating %>
-      <br>
-      <a href='<%= i.external_url %>'><%= i.external_url %></a>
-    </div>
-      <% } %>
+  <% for (let result of results.rows) { %>
+    <div class="resource-info">
+    <p class='info'><%= result.title %></p>
+    <p class='info'><%= result.description %></p>
+    <p class='info'><%= result.topic %></p>
+    <p class='info'><%= (Math.floor(result.rating * 100)/100).toFixed(2) %></p>
+    <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
+    <td>
+      <form method="GET" action="/index/<%=result.id%>">
+        <button type="submit">Show Comments</button>
+      </form>
+    </td>
+</div>
+    <% } %>
 </body>
 
 </html>
