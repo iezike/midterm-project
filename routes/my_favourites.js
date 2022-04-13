@@ -5,13 +5,13 @@ const router = express.Router();
 
 
 module.exports = (db) => {
-  const addRating = (user_id, resource_id, comment) => {
+  const addRating = (user_id, resource_id, rating) => {
     const queryString = `
   INSERT INTO resource_reviews (user_id, resource_id, rating)
   VALUES ($1, $2, $3)
   RETURNING *
     `;
-    return db.query(queryString, [user_id, resource_id, comment]).then(res => res.rows)
+    return db.query(queryString, [user_id, resource_id, rating]).then(res => res.rows)
   };
 
   const getComments = (resourceId) => {
@@ -82,15 +82,21 @@ module.exports = (db) => {
   router.get('/:resource_id', (req, res) => {
     let id = req.params.resource_id;
     let user = req.session.userID;
-
+    console.log('id id:', id);
     Promise
       .all([getSingleRequest(id), getComments(id)])
       .then(([resultData, resultComments]) => {
+        console.log('resultdata', resultData);
         const data = resultData[0];
         const comments = resultComments;
         console.log('here', data);
         console.log('--------', comments);
         res.render('test', { data, comments, id });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
       });
   });
 
