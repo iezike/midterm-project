@@ -1,4 +1,5 @@
 const express = require('express');
+const { user } = require('pg/lib/defaults');
 const login = require('./login');
 const router = express.Router();
 
@@ -10,9 +11,28 @@ module.exports = (db) => {
     JOIN users ON users.id = user_id
     WHERE resource_id = $1
     `
-    return db.query(stringParams, [resourceId])
+    return db.query(stringParams, [resourceId]).then(res => res.rows)
   }
 
+  const getUserName = (userId) => {
+    const queryString =`
+    SELECT name
+    FROM users
+    WHERE id = $1
+    `
+    return db.query(queryString, [userId])
+  }
+
+  const getSingleRequest = (id) => {
+    const queryString = `
+    SELECT resources.*, avg(rating) as rating
+    FROM resources
+    JOIN resource_reviews ON resource_reviews.resource_id = resources.id
+    WHERE resources.id = $1
+    GROUP BY resources.id
+    `
+    return db.query(queryString, [id]).then(res => res.rows)
+  }
 
   const getMyResources = (userID) => {
     let queryString = `
@@ -38,8 +58,22 @@ module.exports = (db) => {
       })
       // const templateVars = {info: results.rows}
       // console.log('jsdvfsdhvf', templateVars);
-      
+
   });
+  router.get('/:resource_id', (req, res) => {
+    let id = req.params.resource_id;
+    let user = req.session.userID;
+
+    Promise
+    .all([getSingleRequest(id), getComments(id)])
+    .then(([resultData,resultComments]) => {
+      const data = resultData[0];
+      const comments = resultComments;
+      console.log('here',data);
+      console.log('--------',comments );
+      res.render('test', {data, comments})
+    })
+  })
 
 
 
