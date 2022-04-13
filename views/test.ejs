@@ -17,22 +17,48 @@
 
   <body>
     <%- include('partials/_headers')%>
-      <div class="resource-info">
-      <p class='info'><%= data.title %></p>
+      <div class="single-resource-info">
+      <div class="resource-data">
+        <h3 class='info'><%= data.title %></h3>
       <p class='info'><%= data.description %></p>
-      <p class='info'><%= data.topic %></p>
-      <p class='info'><%= (Math.floor(data.rating * 100)/100).toFixed(2) %></p>
+      <p class='info'>Category: <%= data.topic %></p>
+      <p class='info'>Rating: <%= (Math.floor(data.rating * 100)/100).toFixed(2) %> / 5</p>
       <a class='info' href='<%= data.external_url %>'><%= data.external_url %></a>
-     <% for (let comment of comments) { %>
-      <footer class="footers"><%=comment.comment%>-<%= comment.name%></footer>
-      <% } %>
+      </div>
       <form method="POST" action="/favourites/<%=id%>">
-      <label for="comment"> Enter comment here</label>
-      <textarea type="text" name="comment" placeholder="Type here"></textarea>
+        <div class="resource-rating">
+        <label for="rating">Rate me!</label>
+        <select name="rating">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <td>
+          <button type="submit"> Submit</button>
+        </td>
+        </div>
+      </form>
+      <form class='comment-form' method="POST" action="/favourites/<%=id%>">
+        <label for="comment"></label>
+      <textarea class="comment-text-area" type="text" name="comment" placeholder="Type  comment here"></textarea>
       <td>
         <button type="submit"> Submit</button>
       </td>
     </form>
+    <div class="all-comments">
+    <h3>Comments</h3>
+      <% for (let comment of comments) { %>
+      <% if (comment.comment !== '' && comment.comment !== null  ) { %>
+      <div class="single-comment">
+        <p class="paragraph"><%=comment.comment%></p>
+      <span class="paragraph">Posted by: <%= comment.name%></span>
+      </div>
+      <% } %>
+      <% } %>
+    </div>
   </div>
 
       <h1>Have fun! 🥔</h1>

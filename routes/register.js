@@ -48,7 +48,7 @@ const addUser =  function(name, email, password) {
       }
       req.session.userID = result.id;
       // return result.rows[0];
-      res.render('index')
+      res.redirect('/index')
     })
     .catch(e => res.send(e));
   });

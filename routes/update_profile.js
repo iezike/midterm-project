@@ -30,7 +30,7 @@ module.exports = function (db) {
           return;
         }
         req.session.userId = user.id;
-        res.render('index')
+        res.redirect('/index')
       })
       .catch(e => res.send(e));
   });
