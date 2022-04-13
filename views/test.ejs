@@ -21,7 +21,7 @@
       <div class="resource-data">
         <h3 class='info'><%= data.title %></h3>
       <p class='info'><%= data.description %></p>
-      <p class='info'><%= data.topic %></p>
+      <p class='info'>Category: <%= data.topic %></p>
       <p class='info'>Rating: <%= (Math.floor(data.rating * 100)/100).toFixed(2) %> / 5</p>
       <a class='info' href='<%= data.external_url %>'><%= data.external_url %></a>
       </div>

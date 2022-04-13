@@ -9,6 +9,7 @@ module.exports = (db) => {
     FROM resource_reviews
     JOIN users ON users.id = user_id
     WHERE resource_id = $1
+    ORDER BY resource_reviews.id DESC
     `;
     return db.query(stringParams, [resourceId]).then(res => res.rows);
   };
