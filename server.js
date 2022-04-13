@@ -50,8 +50,9 @@ const registerRoutes = require("./routes/register");
 const addResourcesRoutes = require("./routes/add_resources");
 const homepageRoutes = require("./routes/homepage");
 const updateProfileRoutes = require("./routes/update_profile");
-
 const favouriteRoutes = require("./routes/my_favourites");
+const searchRoutes = require("./routes/search_resources");
+
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
@@ -65,6 +66,7 @@ app.use('/resources', addResourcesRoutes(db));
 app.use("/api/update", updateProfileRoutes(db));
 
 app.use('/favourites', favouriteRoutes(db));
+app.use("/api/search", searchRoutes(db));
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
