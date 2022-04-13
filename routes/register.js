@@ -39,7 +39,7 @@ const addUser =  function(name, email, password) {
     const user = req.body;
     const name = user.name;
     const password = user.password;
-    const email = user.email
+    const email = user.email;
     addUser(name, email, password)
     .then(result => {
       if (!result) {

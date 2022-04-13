@@ -49,6 +49,7 @@ const loginRoutes = require("./routes/login");
 const registerRoutes = require("./routes/register");
 const addResourcesRoutes = require("./routes/add_resources");
 const homepageRoutes = require("./routes/homepage");
+const updateProfileRoutes = require("./routes/update_profile");
 
 const favouriteRoutes = require("./routes/my_favourites");
 // Mount all resource routes
@@ -61,6 +62,8 @@ app.use("/index", homepageRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
 app.use('/resources', addResourcesRoutes(db));
+app.use("/api/update", updateProfileRoutes(db));
+
 app.use('/favourites', favouriteRoutes(db));
 // Home page
 // Warning: avoid creating more routes in this file!
