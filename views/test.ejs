@@ -24,10 +24,21 @@
       <p class='info'><%= (Math.floor(data.rating * 100)/100).toFixed(2) %></p>
       <a class='info' href='<%= data.external_url %>'><%= data.external_url %></a>
      <% for (let comment of comments) { %>
+      <% if (comment.comment !== null) { %>
       <footer class="footers"><%=comment.comment%>-<%= comment.name%></footer>
       <% } %>
+      <% } %>
       <form method="POST" action="/favourites/<%=id%>">
-      <label for="comment"> Enter comment here</label>
+        <label for="rating">Choose a rating</label>
+        <select name="rating">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label for="comment"> Enter comment here</label>
       <textarea type="text" name="comment" placeholder="Type here"></textarea>
       <td>
         <button type="submit"> Submit</button>

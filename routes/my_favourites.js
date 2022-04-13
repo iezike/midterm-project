@@ -5,6 +5,15 @@ const router = express.Router();
 
 
 module.exports = (db) => {
+  const addRating = (user_id, resource_id, comment) => {
+    const queryString = `
+  INSERT INTO resource_reviews (user_id, resource_id, rating)
+  VALUES ($1, $2, $3)
+  RETURNING *
+    `;
+    return db.query(queryString, [user_id, resource_id, comment]).then(res => res.rows)
+  };
+
   const getComments = (resourceId) => {
     const stringParams = ` SELECT comment, users.name, resource_id
     FROM resource_reviews
@@ -85,13 +94,20 @@ module.exports = (db) => {
   });
 
   router.post('/:resource_id', (req, res) => {
-    console.log('+++++++++',req.body);
+    console.log('+++++++++', req.body);
     const userID = req.session.userID;
     const resourceID = req.params.resource_id;
     const comment = req.body.comment;
-    console.log('--------',resourceID);
-    addComment(userID, resourceID, comment);
-    res.redirect(`/favourites/${resourceID}`)
+    const rating = req.body.rating;
+    console.log('--------', rating);
+    Promise
+    .all([addComment(userID, resourceID, comment),
+    addRating(userID, resourceID, rating)])
+    .then(([resComment, resRating]) => {
+      res.redirect(`/favourites/${resourceID}`);
+     return resComment, resRating
+
+    })
   });
 
 
