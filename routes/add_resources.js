@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 module.exports = (db) => {
-  const addResource = (owner_id, title, description, topic, external_url, user_id, resource_id) => {
+  const addResource = (owner_id, title, description, topic, external_url) => {
     const queryString = `INSERT INTO resources (owner_id, title, description, topic, external_url)
     VALUES ($1, $2, $3, $4, $5) RETURNING *`
 
