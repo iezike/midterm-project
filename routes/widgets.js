@@ -10,7 +10,7 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM resources`;
+    let query = `SELECT * FROM resource_reviews`;
     console.log(query);
     db.query(query)
       .then(data => {
