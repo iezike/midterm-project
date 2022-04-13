@@ -58,3 +58,31 @@ html {
 .paragraph {
   padding: .5em;
 }
+
+.nav-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: black;
+  font-size: 2em;
+}
+
+.other-links {
+  display: flex;
+  align-items: center;
+}
+
+.logout {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: .5em;
+}
+
+.nav-link {
+  margin: .2em;
+}
