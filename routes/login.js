@@ -13,9 +13,7 @@ module.exports = (db, dbQueries) => {
 
   router.post("/", (req, res) => {
     const { email, password } = req.body
-
     if(!email || !password) return res.status(401).send('Wrong email or password')
-
 
     dbQueries.getUserByEmail(email, password, db)
     .then(user => {
