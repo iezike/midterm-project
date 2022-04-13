@@ -4,7 +4,7 @@ const router = express.Router();
 
 // route to display homepage feed
 module.exports = (db) => {
-  const getResourceData = (information) => {
+  const getResourceData = () => {
     console.log("/ route test here:")
     let resourceQuery = `SELECT title, description, topic, external_url, avg(rating) as average_rating
     FROM resources
@@ -17,10 +17,9 @@ module.exports = (db) => {
   };
   router.get("/", (req, res) => {
     getResourceData()
-      .then(results => {
-        console.log('Template Vars: ', results);
-        res.render("index", {results});
-      })
+    .then(results => {
+      res.render('index', {results});
+    })
   });
   return router;
 }

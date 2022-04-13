@@ -2,17 +2,17 @@ const express = require('express');
 const router = express.Router();
 
 const bcrypt = require("bcryptjs");
-const { getUserId, getUserByEmail } = require('../helpers');
+// const { getUserId, getUserByEmail } = require('../helpers');
 
 module.exports = (db, dbQueries) => {
 
-  router.get("/login", (req, res) => {
+  router.get("/", (req, res) => {
     const templateVars = { user: null }
     res.render("login", templateVars);
   });
 
-  router.post("/login", (req, res) => {
-    console.log('/login route here: ')
+  router.post("/", (req, res) => {
+    console.log('Here!!!!!!')
     const { email, password } = req.body
     if(!req.body.email || !req.body.password) return res.status(401).send('Wrong email or password')
 
@@ -21,14 +21,17 @@ module.exports = (db, dbQueries) => {
     .then(user => {
       console.log('user:', user)
       if(user) {
-        console.log('user:', user)
+        console.log('helloasdads',req.session.userID);
         req.session.userID = user.id;
-        res.render('index', { user })
+        res.redirect('/index')
       }
     })
     .catch(error => {
       console.log(error);
     })
   });
+
+
+
   return router;
 }

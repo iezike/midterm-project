@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 -- Drop tables if any e
+=======
+>>>>>>> master
 DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (

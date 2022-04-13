@@ -4,7 +4,24 @@ const router  = express.Router();
 // const addUser = require("./helpers");
 
 
+
+// Helper function
+const getUserWithEmail = function(email) {
+  return pool
+    .query(`SELECT *
+    FROM users
+    WHERE email =  $1`, [email])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((err) => {
+      return err.message;
+    });
+}
+
+
 // Route to handle a user registeration form
+
 module.exports = function(db) {
   // Helper function
 const addUser =  function(name, email, password) {
@@ -25,11 +42,11 @@ const addUser =  function(name, email, password) {
     const email = user.email
     addUser(name, email, password)
     .then(result => {
-      if (!user) {
+      if (!result) {
         res.send({error: "error"});
         return;
       }
-      req.session.userId = user.id;
+      req.session.userID = result.id;
       // return result.rows[0];
       res.render('index')
     })
