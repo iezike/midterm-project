@@ -3,7 +3,6 @@
 
 <head>
   <title>Home Page</title>
-
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
@@ -15,24 +14,19 @@
 
 <body>
   <%- include('partials/_headers') %>
-
     <div>
       <!-- Create sign up form -->
-      <form id="sign-up-form" class="sign-up-form" method="post" action="/api/register">
-        <p>Sign Up</p>
-
+      <form id="sign-up-form" class="sign-up-form" method="post" action="/api/update">
+        <p>Update profile</p>
         <div class="sign-up-form__field-wrapper">
           <input type="text" name="name" placeholder="Username">
         </div>
-
         <div class="sign-up-form__field-wrapper">
           <input type="email" name="email" placeholder="Email">
         </div>
-
         <div class="sign-up-form__field-wrapper">
           <input type="password" name="password" placeholder="Password">
         </div>
-
         <div class="sign-up-form__field-wrapper">
           <button>Sign Up</button>
           <a id="sign-up-form__cancel" href="#">Cancel</a>
@@ -40,5 +34,4 @@
       </form>
     </div>
 </body>
-
 </html>

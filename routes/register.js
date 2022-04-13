@@ -39,15 +39,14 @@ const addUser =  function(name, email, password) {
     const user = req.body;
     const name = user.name;
     const password = user.password;
-    const email = user.email
+    const email = user.email;
     addUser(name, email, password)
     .then(result => {
       if (!user) {
         res.send({error: "error"});
         return;
       }
-      req.session.userId = user.id;
-      // return result.rows[0];
+      req.session.userID = user.id;
       res.render('index')
     })
     .catch(e => res.send(e));
