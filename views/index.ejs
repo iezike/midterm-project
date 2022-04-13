@@ -10,27 +10,59 @@
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-  <script type="text/javascript" src="/scripts/app.js"></script>
+  <script type="text/javascript" src="/scripts/app.js" defer></script>
 </head>
+
 <body>
-    <%- include('partials/_headers')%>
-  <div>
-  <h1>Have fun! 🥔</h1>
-  </div>
-  <% for (let result of results.rows) { %>
-    <div class="resource-info">
-    <p class='info'><%= result.title %></p>
-    <p class='info'><%= result.description %></p>
-    <p class='info'><%= result.topic %></p>
-    <p class='info'><%= (Math.floor(result.rating * 100)/100).toFixed(2) %></p>
-    <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
-    <td>
-      <form method="GET" action="/index/<%=result.id%>">
-        <button type="submit">Show Comments</button>
-      </form>
-    </td>
-</div>
-    <% } %>
+  <%- include('partials/_headers')%>
+    <div>
+      <h1>Have fun! 🥔</h1>
+    </div>
+    <% for (let result of results.rows) { %>
+      <div class="resource-info">
+        <p class='info'>
+          <%= result.title %>
+        </p>
+        <p class='info'>
+          <%= result.description %>
+        </p>
+        <p class='info'>
+          <%= result.topic %>
+        </p>
+        <p class='info'>
+          <%= (Math.floor(result.rating * 100)/100).toFixed(2) %>
+        </p>
+        <a class='info' href='<%= result.external_url %>'>
+          <%= result.external_url %>
+        </a>
+
+        <button class="btn btn-like" >
+          <span class="btn-icon btn--icon-default">
+            <span class="fa fa-heart"></span>
+          </span>
+          <span class="btn-icon btn--icon-liked">
+            <span class="fa fa-heart"></span>
+          </span>
+        <span><%= result.like_count %> likes</span>
+        <span>
+          <% if (result.like) { %>
+          <span class="btn-content btn-content--liked">
+            Liked
+          </span>
+        <% } else { %>
+          <span class="btn-content like btn-content--default" data-like="<%= result.id %>">
+            Like
+          </span>
+          <% } %>
+        </button>
+
+        <td>
+          <form method="GET" action="/index/<%=result.id%>">
+            <button type="submit">Show Comments</button>
+          </form>
+        </td>
+      </div>
+      <% } %>
 </body>
 
 </html>

@@ -19,6 +19,7 @@ const dbQueries = require('./helpers.js')
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
+console.log("DB Params: ", dbParams);
 const db = new Pool(dbParams);
 db.connect();
 

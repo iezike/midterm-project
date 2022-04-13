@@ -22,6 +22,16 @@ module.exports = (db) => {
     return db.query(stringParams, [user_id, resource_id, comment]).then(res => res.rows);
   };
 
+  const increaseLikeCount = (resource_id) => {
+    // const testParam = `SELECT * FROM resources WHERE id = $1`;
+    const stringParams = `
+  UPDATE resources
+  SET like_count = like_count + 1
+  WHERE id = $1
+  `;
+    return db.query(stringParams, [resource_id]).then(res => res.rows);
+  };
+
   const getSingleRequest = (id) => {
     const queryString = `
     SELECT resources.*, avg(rating) as rating
@@ -40,61 +50,73 @@ module.exports = (db) => {
     JOIN resource_reviews ON  resources.id = resource_id
     GROUP BY resources.id
     `;
-
     return db
       .query(resourceQuery)
   };
+
+  const getLikes = (resourceLike) => {
+    const stringParams = ` SELECT resource_id, like_count as likes
+    FROM resource_reviews
+    JOIN resources ON resources.id = resource_id
+    WHERE resource_id = $1
+    `;
+    return db.query(stringParams, [resourceLike]).then(res => res.rows);
+  };
+
+  // query to update likes like_count +1
+
+
   router.get("/", (req, res) => {
     getResourceData()
-    .then(results => {
-      res.render('index', {results});
-    })
+      .then(results => {
+        res.render('index', { results });
+      })
   });
+
   router.get('/:resource_id', (req, res) => {
     let id = req.params.resource_id;
     let user = req.session.userID;
+    let likes = req.params.like_count;
 
+
+    // add like grab function inside here
     Promise
-      .all([getSingleRequest(id), getComments(id)])
-      .then(([resultData, resultComments]) => {
+      .all([getSingleRequest(id), getComments(id), getLikes(likes)])
+      .then(([resultData, resultComments, resultLikes]) => {
         const data = resultData[0];
         const comments = resultComments;
+        const likes = resultLikes;
         console.log('here', data);
         console.log('--------', comments);
-        res.render('test', { data, comments, id });
+        console.log("--------", likes);
+        res.render('test', { data, comments, likes, id });
       });
   });
 
   router.post('/:resource_id', (req, res) => {
-    console.log('+++++++++',req.body);
+    console.log('+++++++++', req.body);
     const userID = req.session.userID;
     const resourceID = req.params.resource_id;
     const comment = req.body.comment;
-    console.log('--------',resourceID);
+    console.log('--------', resourceID);
     addComment(userID, resourceID, comment);
     res.redirect(`/index/${resourceID}`)
   });
+
+  router.post('/update/:resource_id', (req, res) => {
+    console.log('+++++++++', req.params.resource_id);
+    const resourceID = req.params.resource_id;
+    increaseLikeCount(resourceID)
+      .then(results => {
+        console.log('Results: ', results)
+      })
+    res.redirect(/index/)
+  });
+
   return router;
+
+
+
 }
 
-// const likeCounter = document.createElement("span")
 
-// fetch("http://localhost:8080/index")
-//   .then((resp) => resp.json())
-//   .then((currentLikeData) =>
-//     setLikeCounter(currentLikeData, id, likeCounter)
-//   );
-
-//   function setLikeCounter(currentLikeData, id, likeCounter) {
-//     const likedContent = currentLikeData.find(
-//       (element) => element["id"] === id.innerText
-//     );
-
-//     if(typeof likedContent === "undefined") {
-//       likeCounter.innerText = "0 likes";
-//     } else if (likedContent === 1) {
-//       likeCounter.innerText = "1 like";
-//     } else {
-//     likeCounter.innerText = `${likedContent["likes"]} likes`;
-//     }
-//   }
