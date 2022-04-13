@@ -15,13 +15,17 @@
 <body>
   <%- include('partials/_headers')%>
   <% for (let result of results.rows) { %>
-    <div class="resource-info">
-    <p class='info'><%= result.title %></p>
+    <div class="resource-data">
+    <h3 class='info'><%= result.title %></h3>
     <p class='info'><%= result.description %></p>
-    <p class='info'><%= result.topic %></p>
-    <p class='info'><%= (Math.floor(result.rating * 100)/100).toFixed(2) %></p>
+    <p class='info'>Category: <%= result.topic %></p>
+    <p class='info'>Rating: <%= (Math.floor(result.rating * 100)/100).toFixed(2) %> / 5</p>
     <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
-    <footer class="footers"><%=result.comment%>-<%= result.name%></footer>
+    <td>
+      <form method="GET" action="/favourites/<%=result.id%>">
+        <button type="submit">Show Comments</button>
+      </form>
+    </td>
 </div>
     <% } %>
 

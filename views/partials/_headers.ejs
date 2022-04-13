@@ -1,17 +1,17 @@
 <header class="header">
   <nav class="nav-bar">
     <a class="navbar-brand" href="/">Resource Wall</a>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="other-links" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/favourites">My Resources</a>
         <a class="nav-item nav-link" href="/api/search">Search</a>
-        <a class="nav-item nav-link" href="/resources/add">Add Resource</a>
-        <form method="POST" action="/logout">
+        <a class="nav-link" href="/favourites">My Resources</a>
+        <a class="nav-link" href="/resources/add">Add Resource</a>
+        <a class="nav-link" href="/api/update">Update Profile</a>
+        <a class="nav-link" href="/api/register">Register</a>
+        <a class="nav-link" href="/api/login">Login</a>
+        <form class="logout" method="POST" action="/logout">
           <button type='submit' class='btn btn-outline-light'>Logout</button>
         </form>
-        <a class="nav-item nav-link" href="/api/register">Register</a>
-        <a class="nav-item nav-link" href="/api/login">Login</a>
-        <a class="nav-item nav-link" href="/api/update">Update Profile</a>
 
       </div>
     </div>

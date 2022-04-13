@@ -37,16 +37,16 @@ module.exports = function (db) {
     //   return res.status(403).send("Email already exit!");
     // }
     addUser(name, email, password)
-      .then(result => {
-        if (!result) {
-          res.send({ error: "error" });
-          return;
-        }
-        req.session.userID = result.id;
-        // return result.rows[0];
-        res.redirect('/index')
-      })
-      .catch(e => res.send(e));
+    .then(result => {
+      if (!result) {
+        res.send({error: "error"});
+        return;
+      }
+      req.session.userID = result.id;
+      // return result.rows[0];
+      res.redirect('/index')
+    })
+    .catch(e => res.send(e));
   });
 
   return router;
