@@ -21,7 +21,11 @@
     <p class='info'><%= result.topic %></p>
     <p class='info'><%= (Math.floor(result.rating * 100)/100).toFixed(2) %></p>
     <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
-    <footer class="footers"><%=result.comment%>-<%= result.name%></footer>
+    <td>
+      <form method="GET" action="/favourites/<%=result.id%>">
+        <button type="submit">Show Comments</button>
+      </form>
+    </td>
 </div>
     <% } %>
 

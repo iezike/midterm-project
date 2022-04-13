@@ -7,6 +7,5 @@ CREATE TABLE resources (
   title VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
   topic VARCHAR(255) NOT NULL,
-  external_url VARCHAR(255) NOT NULL,
-  image IMAGE
+  external_url VARCHAR(255) NOT NULL
 );

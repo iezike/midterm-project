@@ -26,6 +26,13 @@
      <% for (let comment of comments) { %>
       <footer class="footers"><%=comment.comment%>-<%= comment.name%></footer>
       <% } %>
+      <form method="POST" action="/favourites/<%=id%>">
+      <label for="comment"> Enter comment here</label>
+      <textarea type="text" name="comment" placeholder="Type here"></textarea>
+      <td>
+        <button type="submit"> Submit</button>
+      </td>
+    </form>
   </div>
 
       <h1>Have fun! 🥔</h1>
