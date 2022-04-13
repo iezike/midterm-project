@@ -20,7 +20,6 @@ module.exports = (db, dbQueries) => {
     .then(user => {
       console.log('user:', user)
       if(user) {
-        console.log('helloasdads',req.session.userID);
         req.session.userID = user.id;
         res.redirect('/index')
       }
