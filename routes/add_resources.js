@@ -40,6 +40,9 @@ return db.query(queryString, [user_id, resource_id]);
     const url = resource.url;
     const topic = resource.topic;
     const owner = req.session.userID;
+    if (!title || !description || !url || !topic || !owner){
+      return res.status(400).send('Please fill in all forms')
+    }
     addResource(owner, title, description, topic, url)
       .then(result => {
         console.log('are you my answer', result.rows[0]);
