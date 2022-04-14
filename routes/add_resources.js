@@ -64,6 +64,10 @@ return db.query(queryString, [user_id, resource_id]);
         console.log('are you my answer', result.rows[0]);
         console.log('id', result.rows[0].id);
         addToFavourites(owner, result.rows[0].id)
+        .then(res => {
+          console.log('@@@@@@@@@@', res.rows);
+          return res.rows[0]
+        })
         res.redirect('/')
         })
 

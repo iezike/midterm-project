@@ -34,15 +34,21 @@ module.exports = function (db) {
       res.render('search_resources', {activeUser})
     })
   })
+
   router.post('/', (req, res) => {
     const keySearch = req.body.searchText;
+    const user = req.session.userID;
     console.log(keySearch)
-    getSearchData(keySearch)
-    .then(results => {
-      if (results.rows.length === 0){
-        return res.status(403).send("No result found");
-      }
-      res.render('search_results', {results});
+    getUserName(user)
+    .then(activeUser => {
+
+      getSearchData(keySearch)
+      .then(results => {
+        if (results.rows.length === 0){
+          return res.status(403).send("No result found");
+        }
+        res.render('search_results', {results, activeUser});
+      })
     })
   })
   return router;

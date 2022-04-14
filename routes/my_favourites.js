@@ -85,10 +85,10 @@ module.exports = (db) => {
   const getMyResources = (userID) => {
     let queryString = `
     SELECT DISTINCT resources.*, avg(rating) as rating
-    FROM resources
-    JOIN users ON owner_id = users.id
-    JOIN resource_reviews ON resource_reviews.user_id = users.id
-    JOIN favourites ON favourites.resource_id = resources.id
+    FROM favourites
+    LEFT JOIN resources ON favourites.resource_id = resources.id
+    LEFT JOIN users ON owner_id = users.id
+    LEFT JOIN resource_reviews ON resource_reviews.user_id = users.id
     WHERE favourites.user_id = $1
     GROUP BY resources.id
     ORDER BY resources.id DESC
