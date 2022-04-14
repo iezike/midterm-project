@@ -15,7 +15,8 @@
 
 <body>
     <%- include('partials/_headers', {activeUser: activeUser})%>
-  <div>
+    <% if (activeUser) { %>
+    <div>
   <main class="all-top">
     <div>
   <h1>Have fun! 🥔</h1>
@@ -61,6 +62,32 @@
 </div>
     <% } %>
 </main>
+<% } else { %>
+  <div>
+    <main class="all-top">
+      <div>
+    <h1>Have fun! 🥔</h1>
+    </div>
+    <% for (let result of results.rows) { %>
+      <div class="resource-data">
+      <h3 class='info'><%= result.title %></h3>
+      <p class='info'><%= result.description %></p>
+      <p class='info'>Category: <%= result.topic %></p>
+      <p class='info'>Rating: <%= (Math.floor(result.rating * 100)/100).toFixed(2) %> / 5</p>
+      <a class='info' href='<%= result.external_url %>'>CLINK ME FOR LINK!</a>
+      <div class='number_of_likes_<%= result.id %>'><%= result.like_count %> likes </div>
+          <td>
+        <form method="GET" action="/index/<%=result.id%>">
+          <button type="submit">
+            Show Comments
+          </button>
+        </form>
+      </td>
+
+  </div>
+      <% } %>
+  </main>
+  <% } %>
 </body>
 
 </html>

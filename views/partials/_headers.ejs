@@ -4,10 +4,10 @@
     <div class="other-links" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/api/search">Search</a>
-        <a class="nav-link" href="/favourites">My Resources</a>
-        <a class="nav-link" href="/resources/add">Add Resource</a>
-        <a class="nav-link" href="/api/update">Update Profile</a>
         <% if (activeUser) { %>
+          <a class="nav-link" href="/favourites">My Resources</a>
+          <a class="nav-link" href="/resources/add">Add Resource</a>
+          <a class="nav-link" href="/api/update">Update Profile</a>
           <form class="logout" action="/logout" method="POST">
             <h5 class="username"> Logged in as <%=  activeUser %> </h5>
             <button class='logout-btn' type="submit">Logout</button>

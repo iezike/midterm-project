@@ -17,6 +17,7 @@
 
   <body>
     <%- include('partials/_headers', {activeUser: activeUser})%>
+    <% if (activeUser) { %>
     <main class="all-top">
     <div class="single-resource-info">
       <div class="resource-data">
@@ -28,7 +29,7 @@
       </div>
       <form method="POST" action="/favourites/<%=id%>">
         <div class="resource-rating">
-        <label for="rating">Rate me!</label>
+          <label for="rating">Rate me!</label>
         <select name="rating">
           <option value="0">0</option>
           <option value="1">1</option>
@@ -59,10 +60,34 @@
       </div>
       <% } %>
       <% } %>
+
     </div>
   </div>
+<% } else { %>
+  <main class="all-top">
+    <div class="single-resource-info">
+      <div class="resource-data">
+        <h3 class='info'><%= data.title %></h3>
+      <p class='info'><%= data.description %></p>
+      <p class='info'>Category: <%= data.topic %></p>
+      <p class='info'>Rating: <%= (Math.floor(data.rating * 100)/100).toFixed(2) %> / 5</p>
+      <a class='info' href='<%= data.external_url %>'>CLICK ME FOR LINK!</a>
+      </div>
+      <div class="all-comments">
+        <h3>Comments</h3>
+          <% for (let comment of comments) { %>
+          <% if (comment.comment !== '' && comment.comment !== null  ) { %>
+          <div class="single-comment">
+            <p class="paragraph"><%=comment.comment%></p>
+          <span class="paragraph">Posted by: <%= comment.name%></span>
+          </div>
+          <% } %>
+          <% } %>
 
-      <h1>Have fun! 🥔</h1>
+        </div>
+      </div>
+      <% } %>
+  <h1>Have fun! 🥔</h1>
 
 
   </div>
