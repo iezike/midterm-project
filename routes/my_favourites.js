@@ -47,8 +47,8 @@ module.exports = (db) => {
   VALUES ($1, $2, $3)
   RETURNING *
   `;
-    return db.query(stringParams, [user_id, resource_id, comment]).then(res => res.rows);
-  };
+  return db.query(stringParams, [user_id, resource_id, comment]).then(res => res.rows);
+};
 
   const getUserName = (userId) => {
     const queryString = `
@@ -78,8 +78,8 @@ module.exports = (db) => {
     JOIN resource_reviews ON resource_reviews.user_id = users.id
     JOIN favourites ON favourites.resource_id = resources.id
     WHERE favourites.user_id = $1
-
     GROUP BY resources.id
+    ORDER BY resources.id DESC
     `;
     const queryParams = [userID];
 

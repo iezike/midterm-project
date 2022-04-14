@@ -15,7 +15,8 @@
 
 <body>
     <%- include('partials/_headers')%>
-  <div>
+  <main class="all-top">
+    <div>
   <h1>Have fun! 🥔</h1>
   </div>
   <% for (let result of results.rows) { %>
@@ -33,7 +34,6 @@
       <span class="btn-icon btn--icon-liked">
         <span class="fa fa-heart"></span>
       </span>
-    <!-- <span><%= result.like_count %> likes</span> -->
     <span>
       <% if (result.like) { %>
       <span class="btn-content btn-content--liked">
@@ -59,6 +59,7 @@
     </td>
 </div>
     <% } %>
+</main>
 </body>
 
 </html>

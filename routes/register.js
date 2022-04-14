@@ -43,6 +43,7 @@ module.exports = function (db) {
         return;
       }
       const userID = result.rows[0]
+      console.log('^^^^^^^^',userID);
       req.session.userID = userID.id;
       res.redirect('/index')
     })

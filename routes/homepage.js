@@ -54,6 +54,7 @@ module.exports = (db) => {
     FROM resources
     LEFT JOIN resource_reviews ON  resources.id = resource_id
     GROUP BY resources.id
+    ORDER BY resources.id DESC
     `;
     return db
       .query(resourceQuery)

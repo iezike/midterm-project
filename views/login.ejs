@@ -16,18 +16,19 @@
 <body>
   <%- include('partials/_headers') %>
 
-    <main style="margin: 1em;">
+    <main class="all-top">
+      <divclass="login-info">
       <h3>Login</h3>
       <form class="form-inline" action="/api/login" method="POST">
-        <div class="form-group mb-2">
+        <div class="login-form">
           <label for="email">Enter login email:</label>
-          <input class="form-control" type="email" name="email" placeholder="Email" style="width: 300px; margin: 1em">
+          <input class="login-control" type="email" name="email" placeholder="Email">
           <label for="password">Enter password:</label>
-          <input class="form-control" type="password" name="password" placeholder="Password"
-            style="width: 300px; margin: 1em">
+          <input class="login-control" type="password" name="password" placeholder="Password">
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
+      </div>
     </main>
 </body>
 

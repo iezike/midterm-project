@@ -89,3 +89,21 @@ html {
   text-decoration: none;
   color: black;
 }
+
+.login-info {
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.login-form {
+  display: flex;
+  padding: 0.7em;
+  flex-direction: column;
+}
+
+.login-control {
+  margin: 1em 0em;
+}
+

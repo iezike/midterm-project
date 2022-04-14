@@ -14,6 +14,7 @@
 </head>
 <body>
   <%- include('partials/_headers')%>
+  <main class="all-top">
   <% for (let result of results.rows) { %>
     <div class="resource-data">
     <h3 class='info'><%= result.title %></h3>
@@ -36,6 +37,7 @@
     <% } %>
     <h1>Have fun! 🥔</h1>
 </div>
+  </main>
 </body>
 
 </html>
