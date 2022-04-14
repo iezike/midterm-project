@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Home Page</title>
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
+</head>
+<body>
+  <%- include('partials/_headers') %>
+    <div>
+      <!-- Create search form -->
+      <form class="search-form" class="sign-up-form" method="post" action="/api/search">
+        <input type="search" id="query" name="searchText" placeholder="Search topic ..." aria-label="Search through site content">
+        <button>Search</button>
+      </form>
+    </div>
+</body>
+</html>
