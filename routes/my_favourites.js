@@ -137,12 +137,12 @@ module.exports = (db) => {
     })
   });
 // testing purposes
-  router.post('/resource_id/like', (req,res) => {
+  router.post('/:resource_id/like', (req,res) => {
     const resourceID = req.params.resource_id;
     const userID = req.session.userID;
 
     addToFavourites(userID, resourceID)
-    res.redirect('/favourites')
+    res.redirect('/index')
   })
 
 

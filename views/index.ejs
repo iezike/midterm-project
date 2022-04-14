@@ -26,7 +26,14 @@
     <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
     <td>
       <form method="GET" action="/index/<%=result.id%>">
-        <button type="submit">Show Comments</button>
+        <button type="submit">
+          Show Comments
+        </button>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="/favourites/<%=result.id%>/like">
+        <button type="submit">like me</button>
       </form>
     </td>
 </div>
