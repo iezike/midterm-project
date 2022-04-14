@@ -26,6 +26,11 @@
         <button type="submit">Show Comments</button>
       </form>
     </td>
+    <td>
+      <form method="post" action="/favourites/<%=result.id%>/remove_from_favourites">
+        <button type="submit">Remove me from favourites</button>
+      </form>
+    </td>
 </div>
     <% } %>
     <h1>Have fun! 🥔</h1>
