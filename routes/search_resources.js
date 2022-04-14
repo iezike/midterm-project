@@ -15,8 +15,24 @@ module.exports = function (db) {
     `;
     return db.query(resourceQuery, [`%${text}%`])
   };
+  const getUserName = (userID) => {
+    const userNameQuery = ` SELECT name
+    FROM users
+    WHERE id = $1`;
+    return db.query(userNameQuery, [userID]).then(res => {
+      if (res.rows[0]) {
+        return res.rows[0].name;
+      }
+      return null;
+    })
+  }
+
   router.get('/', (req, res) => {
-    res.render('search_resources')
+    const userID = req.session.userID
+    getUserName(userID)
+    .then(activeUser => {
+      res.render('search_resources', {activeUser})
+    })
   })
   router.post('/', (req, res) => {
     const keySearch = req.body.searchText;

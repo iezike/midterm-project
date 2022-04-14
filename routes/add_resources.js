@@ -17,6 +17,17 @@ module.exports = (db) => {
     return db.query(queryString, [owner_id, title, description, topic, external_url]);
   };
 
+  const getUserName = (userID) => {
+    const userNameQuery = ` SELECT name
+    FROM users
+    WHERE id = $1`;
+    return db.query(userNameQuery, [userID]).then(res => {
+      if (res.rows[0]) {
+        return res.rows[0].name;
+      }
+      return null;
+    })
+  }
 
 const addToFavourites = (user_id, resource_id) => {
   const queryString =`
@@ -28,7 +39,11 @@ return db.query(queryString, [user_id, resource_id]);
 }
 
   router.get('/add', (req, res) => {
-    res.render('add_resources');
+    const userID = req.session.userID
+    getUserName(userID)
+    .then(activeUser => {
+      res.render('add_resources', {activeUser});
+    })
   });
 
 

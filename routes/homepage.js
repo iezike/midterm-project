@@ -45,12 +45,28 @@ module.exports = (db) => {
     return db
       .query(resourceQuery)
   };
+  const getUserName = (userID) => {
+    const userNameQuery = ` SELECT name
+    FROM users
+    WHERE id = $1`;
+    return db.query(userNameQuery, [userID]).then(res => {
+      if (res.rows[0]) {
+        return res.rows[0].name;
+      }
+      return null;
+    })
+  }
+
   router.get("/", (req, res) => {
-    getResourceData()
-    .then(results => {
-      res.render('index', {results});
+    getUserName(req.session.userID)
+    .then(activeUser => {
+      getResourceData()
+        .then(results => {
+          res.render('index', { results, activeUser });
+        })
     })
   });
+
   router.get('/:resource_id', (req, res) => {
     let id = req.params.resource_id;
     let user = req.session.userID;

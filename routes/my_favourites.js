@@ -33,14 +33,14 @@ module.exports = (db) => {
     return db.query(stringParams, [user_id, resource_id, comment]).then(res => res.rows);
   };
 
-  const getUserName = (userId) => {
-    const queryString = `
-    SELECT name
-    FROM users
-    WHERE id = $1
-    `;
-    return db.query(queryString, [userId]);
-  };
+  // const getUserName = (userId) => {
+  //   const queryString = `
+  //   SELECT name
+  //   FROM users
+  //   WHERE id = $1
+  //   `;
+  //   return db.query(queryString, [userId]);
+  // };
 
   const getSingleRequest = (id) => {
     const queryString = `
@@ -52,6 +52,18 @@ module.exports = (db) => {
     `;
     return db.query(queryString, [id]).then(res => res.rows);
   };
+
+  const getUserName = (userID) => {
+    const userNameQuery = ` SELECT name
+    FROM users
+    WHERE id = $1`;
+    return db.query(userNameQuery, [userID]).then(res => {
+      if (res.rows[0]) {
+        return res.rows[0].name;
+      }
+      return null;
+    })
+  }
 
   const getMyResources = (userID) => {
     let queryString = `
@@ -71,27 +83,25 @@ module.exports = (db) => {
 
   router.get('/', (req, res) => {
     const owner = req.session.userID;
-    getMyResources(owner)
-      .then(results => {
-        res.render('my_favourites', { results });
-      });
-    // const templateVars = {info: results.rows}
-    // console.log('jsdvfsdhvf', templateVars);
-
+    Promise
+    .all(([getUserName(owner),getMyResources(owner)]))
+    .then(([activeUser, results]) =>{
+      res.render('my_favourites', { results, activeUser});
+    })
   });
   router.get('/:resource_id', (req, res) => {
     let id = req.params.resource_id;
     let user = req.session.userID;
     console.log('id id:', id);
     Promise
-      .all([getSingleRequest(id), getComments(id)])
-      .then(([resultData, resultComments]) => {
+      .all([getSingleRequest(id), getComments(id), getUserName(user)])
+      .then(([resultData, resultComments, activeUser]) => {
         console.log('resultdata', resultData);
         const data = resultData[0];
         const comments = resultComments;
         console.log('here', data);
         console.log('--------', comments);
-        res.render('test', { data, comments, id });
+        res.render('test', { data, comments, id, activeUser });
       })
       .catch(err => {
         res

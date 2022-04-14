@@ -16,7 +16,7 @@
 
 
   <body>
-    <%- include('partials/_headers')%>
+    <%- include('partials/_headers', {activeUser: activeUser})%>
       <div class="single-resource-info">
       <div class="resource-data">
         <h3 class='info'><%= data.title %></h3>

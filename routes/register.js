@@ -12,14 +12,6 @@ module.exports = function (db) {
     return db.query(queryString, [name, email, password])
   }
 
-  // const getUserWithEmail = function (email) {
-  //   const queryStringEmail = `SELECT *
-  //   FROM users
-  //   WHERE email = $1`
-  //   const values = [email]
-  //   return db.query(queryStringEmail, values)
-  // }
-
   router.get('/', (req, res) => {
     res.render('register')
   })
@@ -32,10 +24,6 @@ module.exports = function (db) {
     if (email === "" || password === "" || name === "") {
       return res.status(403).send("Invalid User");
     }
-    // console.log(getUserWithEmail(email))
-    // if (getUserWithEmail(email)) {
-    //   return res.status(403).send("Email already exit!");
-    // }
     addUser(name, email, password)
     .then(result => {
       if (!result) {
@@ -43,7 +31,6 @@ module.exports = function (db) {
         return;
       }
       req.session.userID = result.id;
-      // return result.rows[0];
       res.redirect('/index')
     })
     .catch(e => res.send(e));
