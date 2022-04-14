@@ -58,8 +58,8 @@ module.exports = (db) => {
     SELECT DISTINCT resources.*, avg(rating) as rating
     FROM resources
     JOIN users ON owner_id = users.id
-    JOIN favourites ON favourites.resource_id = resources.id
     JOIN resource_reviews ON resource_reviews.user_id = users.id
+    JOIN favourites ON favourites.resource_id = resources.id
     WHERE favourites.user_id = $1
     AND LIKED IS true
     GROUP BY resources.id
@@ -73,7 +73,7 @@ module.exports = (db) => {
     const owner = req.session.userID;
     getMyResources(owner)
       .then(results => {
-        res.render('my_favourites', { results });
+        res.render('my_favourites', { results, owner });
       });
     // const templateVars = {info: results.rows}
     // console.log('jsdvfsdhvf', templateVars);

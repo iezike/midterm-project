@@ -10,4 +10,4 @@ VALUES (1, 'Summer drink', 'How to make frozens margaritas', 'diy', 'https://www
 (7, 'Workouts for men', 'A guide to workout for men', 'guides', 'https://www.muscleandstrength.com/workouts/men'),
 (8, 'Secrets in GTA V', 'Where to find the secret things in GTA V', 'guides', 'https://screenrant.com/grand-theft-auto-hidden-tips-hints-gta-5/'),
 (9, 'Beautiful Garden', 'Learn how to garden', 'gardening', 'https://www.gardendesign.com/how-to/'),
-(10, 'My favourite song', 'Its a secret', 'songs', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+(10, 'My favourite song', 'Its a secret', 'videos', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
