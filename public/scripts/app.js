@@ -1,28 +1,34 @@
 // // Client facing scripts here
 
-// $(function() {
+const likeButtons = [...document.querySelectorAll('.like')]
+console.log(likeButtons);
 
-//   $('.comment-form').on('submit', function(event) {
-//     event.preventDefault();
-//     const commentText = $(this).children('.comment-text-area').val();
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector('.btn')
+  console.log("abc");
+  button.classList.toggle('liked')
 
-//     $('.error-text').slideUp();
+  likeButtons.forEach(item => {
+    const likeID = item.dataset.like;
+    console.log(likeID);
+    item.addEventListener('click', () => {
+      console.log('I clicked on ID ', item.dataset.like);
+      console.log('Id is ', likeID);
 
-//     if (commentText === '') {
-//       $('.error-text').html('⚠️ Need to enter some text before submitting. ⚠️');
-//       $('.error-text').slideDown();
-//       return;
-//     }
-//     const commentString = $(this).serialize();
+        return $.ajax({
+          method: "POST",
+          url: "/index/update/" + likeID,
+          success: function (data) {
+            console.log("data", data);
+            const { like_count } = data.results[0]
+            console.log("like count: ", like_count);
+            $(`.number_of_likes_${likeID}`).empty()
+            $(`.number_of_likes_${likeID}`).text(`${like_count} likes`).html()
+          }
 
-//     //Sends a POST request when text is input and clears textarea as well as resetting counter back to 140
-//     $.post('/favourites/<%=id%>', commentString)
-//       .done(function() {
-//         console.log('Success', commentString)
-//         $('.comment-text-area').val('');
+        })
+    });
+      // ajax call that passes in likeID as a paramter to update database
+    })
+  })
 
-
-//       });
-//   })
-
-// })

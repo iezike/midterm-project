@@ -8,6 +8,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bcrypt = require("bcryptjs");
+app.use(express.json())
 
 const cookieSession = require("cookie-session")
 app.use(cookieSession({
@@ -19,6 +20,7 @@ const dbQueries = require('./helpers.js')
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
+console.log("DB Params: ", dbParams);
 const db = new Pool(dbParams);
 db.connect();
 

@@ -11,12 +11,14 @@
 </head>
 <body>
   <%- include('partials/_headers') %>
-    <div>
+  <main class="all-top">
+  <div>
       <!-- Create search form -->
       <form class="search-form" class="sign-up-form" method="post" action="/api/search">
         <input type="search" id="query" name="searchText" placeholder="Search topic ..." aria-label="Search through site content">
         <button>Search</button>
       </form>
     </div>
+  </main>
 </body>
 </html>
