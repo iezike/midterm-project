@@ -20,10 +20,16 @@
     <p class='info'><%= result.description %></p>
     <p class='info'>Category: <%= result.topic %></p>
     <p class='info'>Rating: <%= (Math.floor(result.rating * 100)/100).toFixed(2) %> / 5</p>
-    <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
+    <a class='info' href='<%= result.external_url %>'>CLICK ME FOR LINK!</a>
+    <div class='number_of_likes_<%= result.id %>'><%= result.like_count %> likes </div>
     <td>
       <form method="GET" action="/favourites/<%=result.id%>">
         <button type="submit">Show Comments</button>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="/favourites/<%=result.id%>/remove_from_favourites">
+        <button type="submit">Remove me from favourites</button>
       </form>
     </td>
 </div>

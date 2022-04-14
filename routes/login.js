@@ -19,6 +19,7 @@ module.exports = (db, dbQueries) => {
     .then(user => {
       if(user) {
         req.session.userID = user.id;
+        console.log('logged in as', user.name );
         res.redirect('/index')
       }
     })

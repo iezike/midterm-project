@@ -1,9 +1,5 @@
 // // Client facing scripts here
 
-
-// button.addEventListener('click', () => {
-//     button.classList.toggle('liked')
-// })
 const likeButtons = [...document.querySelectorAll('.like')]
 console.log(likeButtons);
 

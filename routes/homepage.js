@@ -41,7 +41,7 @@ module.exports = (db) => {
     const queryString = `
     SELECT resources.*, avg(rating) as rating
     FROM resources
-    JOIN resource_reviews ON resource_reviews.resource_id = resources.id
+    LEFT JOIN resource_reviews ON resource_reviews.resource_id = resources.id
     WHERE resources.id = $1
     GROUP BY resources.id
     `;
@@ -52,7 +52,7 @@ module.exports = (db) => {
     console.log("/ route test here:")
     let resourceQuery = `SELECT resources.*, avg(rating) as rating
     FROM resources
-    JOIN resource_reviews ON  resources.id = resource_id
+    LEFT JOIN resource_reviews ON  resources.id = resource_id
     GROUP BY resources.id
     `;
     return db

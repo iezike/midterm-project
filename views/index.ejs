@@ -24,7 +24,7 @@
     <p class='info'><%= result.description %></p>
     <p class='info'>Category: <%= result.topic %></p>
     <p class='info'>Rating: <%= (Math.floor(result.rating * 100)/100).toFixed(2) %> / 5</p>
-    <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
+    <a class='info' href='<%= result.external_url %>'>CLINK ME FOR LINK!</a>
     <div class='number_of_likes_<%= result.id %>'><%= result.like_count %> likes </div>
     <button class="btn btn-like" >
       <span class="btn-icon btn--icon-default">
@@ -45,9 +45,16 @@
       </span>
       <% } %>
     </button>
-    <td>
+        <td>
       <form method="GET" action="/index/<%=result.id%>">
-        <button type="submit">Show Comments</button>
+        <button type="submit">
+          Show Comments
+        </button>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="/favourites/<%=result.id%>/add_to_favourites">
+        <button type="submit">Add me to your favourites</button>
       </form>
     </td>
 </div>

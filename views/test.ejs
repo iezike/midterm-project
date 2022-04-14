@@ -23,7 +23,7 @@
       <p class='info'><%= data.description %></p>
       <p class='info'>Category: <%= data.topic %></p>
       <p class='info'>Rating: <%= (Math.floor(data.rating * 100)/100).toFixed(2) %> / 5</p>
-      <a class='info' href='<%= data.external_url %>'><%= data.external_url %></a>
+      <a class='info' href='<%= data.external_url %>'>CLICK ME FOR LINK!</a>
       </div>
       <form method="POST" action="/favourites/<%=id%>">
         <div class="resource-rating">

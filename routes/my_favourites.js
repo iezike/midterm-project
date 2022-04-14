@@ -5,13 +5,30 @@ const router = express.Router();
 
 
 module.exports = (db) => {
+  const removeFomFavourites = (resource_id) => {
+    const queryString = `
+    DELETE FROM favourites
+    WHERE resource_id = $1
+    `;
+    return db.query(queryString, [resource_id]);
+  };
+
+  const addToFavourites = (user_id, resource_id) => {
+    const queryString = `
+      INSERT INTO favourites (user_id, resource_id)
+      VALUES ($1, $2) RETURNING *`;
+
+
+    return db.query(queryString, [user_id, resource_id]);
+  };
+
   const addRating = (user_id, resource_id, rating) => {
     const queryString = `
   INSERT INTO resource_reviews (user_id, resource_id, rating)
   VALUES ($1, $2, $3)
   RETURNING *
     `;
-    return db.query(queryString, [user_id, resource_id, rating]).then(res => res.rows)
+    return db.query(queryString, [user_id, resource_id, rating]).then(res => res.rows);
   };
 
   const getComments = (resourceId) => {
@@ -46,11 +63,11 @@ module.exports = (db) => {
     const queryString = `
     SELECT resources.*, avg(rating) as rating
     FROM resources
-    JOIN resource_reviews ON resource_reviews.resource_id = resources.id
+    LEFT JOIN resource_reviews ON resource_reviews.resource_id = resources.id
     WHERE resources.id = $1
     GROUP BY resources.id
     `;
-    return db.query(queryString, [id]).then(res => res.rows);
+    return db.query(queryString, [id]).then(res => res.rows[0]);
   };
 
   const getMyResources = (userID) => {
@@ -58,10 +75,10 @@ module.exports = (db) => {
     SELECT DISTINCT resources.*, avg(rating) as rating
     FROM resources
     JOIN users ON owner_id = users.id
-    JOIN favourites ON favourites.resource_id = resources.id
     JOIN resource_reviews ON resource_reviews.user_id = users.id
+    JOIN favourites ON favourites.resource_id = resources.id
     WHERE favourites.user_id = $1
-    AND LIKED IS true
+
     GROUP BY resources.id
     `;
     const queryParams = [userID];
@@ -71,9 +88,16 @@ module.exports = (db) => {
 
   router.get('/', (req, res) => {
     const owner = req.session.userID;
+    const userName = getUserName(owner).then(res => {
+      return res.rows[0];
+    });
+    console.log('owner', owner);
     getMyResources(owner)
       .then(results => {
-        res.render('my_favourites', { results });
+        console.log('^^^^^^^^', results.rows);
+
+        // console.log('owner!!', userName);
+        res.render('my_favourites', { results, owner, userName });
       });
     // const templateVars = {info: results.rows}
     // console.log('jsdvfsdhvf', templateVars);
@@ -82,14 +106,14 @@ module.exports = (db) => {
   router.get('/:resource_id', (req, res) => {
     let id = req.params.resource_id;
     let user = req.session.userID;
-    console.log('id id:', id);
+    // console.log('id id:', id);
     Promise
       .all([getSingleRequest(id), getComments(id)])
       .then(([resultData, resultComments]) => {
         console.log('resultdata', resultData);
-        const data = resultData[0];
+        const data = resultData;
         const comments = resultComments;
-        console.log('here', data);
+        console.log('data that shows', data);
         console.log('--------', comments);
         res.render('test', { data, comments, id });
       })
@@ -108,17 +132,35 @@ module.exports = (db) => {
     const rating = req.body.rating;
     console.log('--------', rating);
     Promise
-    .all([addComment(userID, resourceID, comment),
-    addRating(userID, resourceID, rating)])
-    .then(([resComment, resRating]) => {
-      console.log('*********',resComment[0].comment);
-      if (resComment[0].comment === '') {
-        return res.status(400).send('please enter some text')
-      }
-      res.redirect(`/favourites/${resourceID}`);
-     return resComment, resRating
+      .all([addComment(userID, resourceID, comment),
+      addRating(userID, resourceID, rating)])
+      .then(([resComment, resRating]) => {
+        console.log('*********', resComment[0].comment);
+        if (resComment[0].comment === '') {
+          return res.status(400).send('please enter some text');
+        }
+        res.redirect(`/favourites/${resourceID}`);
+        return resComment, resRating;
 
-    })
+      });
+  });
+
+  // testing purposes
+  router.post('/:resource_id/add_to_favourites', (req, res) => {
+    const resourceID = req.params.resource_id;
+    const userID = req.session.userID;
+
+    addToFavourites(userID, resourceID);
+    res.redirect('/index');
+  });
+
+  // more testing
+  router.post('/:resource_id/remove_from_favourites', (req, res) => {
+    const resourceID = req.params.resource_id;
+    const userID = req.session.userID;
+
+    removeFomFavourites(resourceID)
+    res.redirect('/index');
   });
 
 

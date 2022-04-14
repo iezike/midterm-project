@@ -8,5 +8,5 @@ CREATE TABLE resources (
   description TEXT NOT NULL,
   topic VARCHAR(255) NOT NULL,
   external_url VARCHAR(255) NOT NULL,
-  like_count INTEGER
+  like_count INTEGER DEFAULT 0
 );
