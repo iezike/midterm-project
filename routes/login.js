@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 module.exports = (db, dbQueries) => {
 
   router.get("/", (req, res) => {
-    const templateVars = { user: null }
+    const templateVars = { activeUser: null }
     res.render("login", templateVars);
   });
 

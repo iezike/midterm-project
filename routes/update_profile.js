@@ -13,8 +13,23 @@ module.exports = function (db) {
     WHERE id = $1;`;
     return db.query(queryString, [userID,name, email,password])
   }
+  const getUserName = (userID) => {
+    const userNameQuery = ` SELECT name
+    FROM users
+    WHERE id = $1`;
+    return db.query(userNameQuery, [userID]).then(res => {
+      if (res.rows[0]) {
+        return res.rows[0].name;
+      }
+      return null;
+    })
+  }
   router.get('/', (req, res) => {
-    res.render('update_profile')
+    const userID = req.session.userID
+    getUserName(userID)
+    .then(activeUser => {
+      res.render('update_profile', {activeUser})
+    })
   })
   // Post request to update User profile
   router.post('/', (req, res) => {

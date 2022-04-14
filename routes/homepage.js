@@ -59,6 +59,27 @@ module.exports = (db) => {
     return db
       .query(resourceQuery)
   };
+  const getUserName = (userID) => {
+    const userNameQuery = ` SELECT name
+    FROM users
+    WHERE id = $1`;
+    return db.query(userNameQuery, [userID]).then(res => {
+      if (res.rows[0]) {
+        return res.rows[0].name;
+      }
+      return null;
+    })
+  }
+
+  router.get("/", (req, res) => {
+    getUserName(req.session.userID)
+    .then(activeUser => {
+      getResourceData()
+        .then(results => {
+          res.render('index', { results, activeUser });
+        })
+    })
+  });
 
   const getLikes = (resourceLike) => {
     const stringParams = ` SELECT resource_id, like_count as likes
@@ -72,30 +93,22 @@ module.exports = (db) => {
   // query to update likes like_count +1
 
 
-  router.get("/", (req, res) => {
-    getResourceData()
-      .then(results => {
-        res.render('index', { results });
-      })
-  });
 
   router.get('/:resource_id', (req, res) => {
     let id = req.params.resource_id;
     let user = req.session.userID;
     let likes = req.params.like_count;
-
-
     // add like grab function inside here
     Promise
-      .all([getSingleRequest(id), getComments(id), getLikes(likes)])
-      .then(([resultData, resultComments, resultLikes]) => {
+      .all([getSingleRequest(id), getComments(id), getLikes(likes), getUserName(user)])
+      .then(([resultData, resultComments, resultLikes, activeUser]) => {
         const data = resultData[0];
         const comments = resultComments;
         const likes = resultLikes;
         console.log('here', data);
         console.log('--------', comments);
         console.log("--------", likes);
-        res.render('test', { data, comments, likes, id });
+        res.render('test', { data, comments, likes, id, activeUser });
       });
   });
 
