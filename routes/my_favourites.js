@@ -5,6 +5,15 @@ const router = express.Router();
 
 
 module.exports = (db) => {
+  const addToFavourites = (user_id, resource_id) => {
+    const queryString =`
+      INSERT INTO favourites (user_id, resource_id)
+      VALUES ($1, $2) RETURNING *`
+
+
+  return db.query(queryString, [user_id, resource_id]);
+  }
+
   const addRating = (user_id, resource_id, rating) => {
     const queryString = `
   INSERT INTO resource_reviews (user_id, resource_id, rating)
@@ -39,7 +48,7 @@ module.exports = (db) => {
     FROM users
     WHERE id = $1
     `;
-    return db.query(queryString, [userId]);
+    return db.query(queryString, [userId])
   };
 
   const getSingleRequest = (id) => {
@@ -50,7 +59,7 @@ module.exports = (db) => {
     WHERE resources.id = $1
     GROUP BY resources.id
     `;
-    return db.query(queryString, [id]).then(res => res.rows);
+    return db.query(queryString, [id]).then(res => res.rows[0]);
   };
 
   const getMyResources = (userID) => {
@@ -61,7 +70,7 @@ module.exports = (db) => {
     JOIN resource_reviews ON resource_reviews.user_id = users.id
     JOIN favourites ON favourites.resource_id = resources.id
     WHERE favourites.user_id = $1
-    AND LIKED IS true
+
     GROUP BY resources.id
     `;
     const queryParams = [userID];
@@ -71,9 +80,16 @@ module.exports = (db) => {
 
   router.get('/', (req, res) => {
     const owner = req.session.userID;
+    const userName = getUserName(owner).then(res => {
+      return res.rows[0]
+    })
+    console.log('owner', owner);
     getMyResources(owner)
-      .then(results => {
-        res.render('my_favourites', { results, owner });
+    .then(results => {
+      console.log('^^^^^^^^', results.rows);
+
+      // console.log('owner!!', userName);
+        res.render('my_favourites', { results, owner, userName });
       });
     // const templateVars = {info: results.rows}
     // console.log('jsdvfsdhvf', templateVars);
@@ -82,14 +98,14 @@ module.exports = (db) => {
   router.get('/:resource_id', (req, res) => {
     let id = req.params.resource_id;
     let user = req.session.userID;
-    console.log('id id:', id);
+    // console.log('id id:', id);
     Promise
       .all([getSingleRequest(id), getComments(id)])
       .then(([resultData, resultComments]) => {
         console.log('resultdata', resultData);
-        const data = resultData[0];
+        const data = resultData;
         const comments = resultComments;
-        console.log('here', data);
+        console.log('data that shows', data);
         console.log('--------', comments);
         res.render('test', { data, comments, id });
       })
@@ -120,6 +136,14 @@ module.exports = (db) => {
 
     })
   });
+// testing purposes
+  router.post('/resource_id/like', (req,res) => {
+    const resourceID = req.params.resource_id;
+    const userID = req.session.userID;
+
+    addToFavourites(userID, resourceID)
+    res.redirect('/favourites')
+  })
 
 
 
