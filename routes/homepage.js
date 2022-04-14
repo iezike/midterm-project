@@ -29,8 +29,12 @@ module.exports = (db) => {
   UPDATE resources
   SET like_count = like_count + 1
   WHERE id = $1
+  RETURNING *
   `;
-    return db.query(stringParams, [resource_id]).then(res => res.rows);
+    return db.query(stringParams, [resource_id]).then(res => {
+      // console.log('res', res);
+      return res.rows
+    });
   };
 
   const getSingleRequest = (id) => {
@@ -110,8 +114,9 @@ module.exports = (db) => {
     increaseLikeCount(resourceID)
       .then(results => {
         console.log('Results: ', results)
+        res.json({ results });
       })
-    res.redirect(/index/)
+    // res.redirect(/index/)
   });
 
   return router;

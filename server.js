@@ -8,6 +8,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bcrypt = require("bcryptjs");
+app.use(express.json())
 
 const cookieSession = require("cookie-session")
 app.use(cookieSession({

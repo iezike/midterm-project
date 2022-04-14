@@ -22,6 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return $.ajax({
           method: "POST",
           url: "/index/update/" + likeID,
+          success: function (data) {
+            console.log("data", data);
+            const { like_count } = data.results[0]
+            console.log("like count: ", like_count);
+            $(`.number_of_likes_${likeID}`).empty()
+            $(`.number_of_likes_${likeID}`).text(`${like_count} likes`).html()
+          }
+
         })
     });
       // ajax call that passes in likeID as a paramter to update database
