@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 module.exports = (db) => {
-  const addResource = (owner_id, title, description, topic, external_url, user_id, resource_id) => {
+  const addResource = (owner_id, title, description, topic, external_url) => {
     const queryString = `INSERT INTO resources (owner_id, title, description, topic, external_url)
     VALUES ($1, $2, $3, $4, $5) RETURNING *`
 
@@ -40,6 +40,10 @@ return db.query(queryString, [user_id, resource_id]);
     const url = resource.url;
     const topic = resource.topic;
     const owner = req.session.userID;
+    console.log('asdadad', owner);
+    if (!title || !description || !url || !topic || !owner){
+      return res.status(400).send('Please fill in all forms')
+    }
     addResource(owner, title, description, topic, url)
       .then(result => {
         console.log('are you my answer', result.rows[0]);

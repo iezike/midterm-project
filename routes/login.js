@@ -21,6 +21,7 @@ module.exports = (db, dbQueries) => {
       console.log('user:', user)
       if(user) {
         req.session.userID = user.id;
+        console.log('logged in as', user.name );
         res.redirect('/index')
       }
     })
