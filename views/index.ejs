@@ -10,11 +10,14 @@
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-  <script type="text/javascript" src="/scripts/app.js"></script>
+  <script type="text/javascript" src="/scripts/app.js" defer></script>
 </head>
+
 <body>
     <%- include('partials/_headers', {activeUser: activeUser})%>
   <div>
+  <main class="all-top">
+    <div>
   <h1>Have fun! 🥔</h1>
   </div>
   <% for (let result of results.rows) { %>
@@ -23,14 +26,41 @@
     <p class='info'><%= result.description %></p>
     <p class='info'>Category: <%= result.topic %></p>
     <p class='info'>Rating: <%= (Math.floor(result.rating * 100)/100).toFixed(2) %> / 5</p>
-    <a class='info' href='<%= result.external_url %>'><%= result.external_url %></a>
-    <td>
+    <a class='info' href='<%= result.external_url %>'>CLINK ME FOR LINK!</a>
+    <div class='number_of_likes_<%= result.id %>'><%= result.like_count %> likes </div>
+    <button class="btn btn-like" >
+      <span class="btn-icon btn--icon-default">
+        <span class="fa fa-heart"></span>
+      </span>
+      <span class="btn-icon btn--icon-liked">
+        <span class="fa fa-heart"></span>
+      </span>
+    <span>
+      <% if (result.like) { %>
+      <span class="btn-content btn-content--liked">
+        Liked
+      </span>
+    <% } else { %>
+      <span class="btn-content like btn-content--default" data-like="<%= result.id %>">
+        Like
+      </span>
+      <% } %>
+    </button>
+        <td>
       <form method="GET" action="/index/<%=result.id%>">
-        <button type="submit">Show Comments</button>
+        <button type="submit">
+          Show Comments
+        </button>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="/favourites/<%=result.id%>/add_to_favourites">
+        <button type="submit">Add me to your favourites</button>
       </form>
     </td>
 </div>
     <% } %>
+</main>
 </body>
 
 </html>
