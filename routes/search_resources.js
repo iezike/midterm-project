@@ -7,6 +7,15 @@ const router = express.Router();
 
 // Route to handle a user registeration form
 module.exports = function (db) {
+  const addToFavourites = (user_id, resource_id) => {
+    const queryString = `
+      INSERT INTO favourites (user_id, resource_id)
+      VALUES ($1, $2) RETURNING *`;
+
+
+    return db.query(queryString, [user_id, resource_id]);
+  };
+
   const getLikes = (resourceLike) => {
     const stringParams = ` SELECT resource_id, like_count as likes
     FROM resource_reviews
@@ -40,7 +49,7 @@ module.exports = function (db) {
 
 
   const getSearchData = (text) => {
-    let resourceQuery = `SELECT title, description, topic, external_url, avg(rating) as rating
+    let resourceQuery = `SELECT resources.*, avg(rating) as rating
     FROM resources
     LEFT JOIN resource_reviews ON  resources.id = resource_id
     WHERE description LIKE $1 OR title LIKE $1 OR topic LIKE $1
@@ -97,6 +106,14 @@ module.exports = function (db) {
         const likes = resultLikes;
         res.render('test', { data, comments, likes, id, activeUser });
       });
+  });
+
+  router.post('/:resource_id/add_to_favourites', (req, res) => {
+    const resourceID = req.params.resource_id;
+    const userID = req.session.userID;
+
+    addToFavourites(userID, resourceID);
+    res.redirect('/index');
   });
 
   return router;
