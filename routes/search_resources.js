@@ -31,23 +31,24 @@ module.exports = function (db) {
   router.get('/', (req, res) => {
     const userID = req.session.userID
     getUserName(userID)
-    .then(activeUser => {
-      res.render('search_resources', {activeUser})
-    })
+      .then(activeUser => {
+        res.render('search_resources', { activeUser })
+      })
   })
+
   router.post('/', (req, res) => {
     const keySearch = req.body.searchText;
-    const userID = req.body.userID;
-    getUserName(userID)
-    .then(activeUser => {
-      getSearchData(keySearch)
-      .then(results => {
-        if (results.rows.length === 0){
-          return res.status(403).send("No result found");
-        }
-        res.render('search_results', {results, activeUser});
+    const user = req.session.userID;
+    getUserName(user)
+      .then(activeUser => {
+        getSearchData(keySearch)
+          .then(results => {
+            if (results.rows.length === 0) {
+              return res.status(403).send("No result found");
+            }
+            res.render('search_results', { results, activeUser });
+          })
       })
-    })
   })
   return router;
 }

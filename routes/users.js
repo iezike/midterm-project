@@ -11,8 +11,8 @@ const router  = express.Router();
 module.exports = (db) => {
   router.get("/", (req, res) => {
     // db.query(`SELECT * FROM resource_reviews`)
-    db.query(`SELECT * FROM users`)
-    // db.query(`SELECT * FROM favourites`)
+    // db.query(`SELECT * FROM users`)
+    db.query(`SELECT * FROM favourites`)
       .then(data => {
         const users = data.rows;
         res.send({ users });

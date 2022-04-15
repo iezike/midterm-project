@@ -19,7 +19,8 @@
     <%- include('partials/_headers', {activeUser: activeUser
     })%>
     <main class="all-top">
-      <h3>Login</h3>
+      <div class="login-info">
+      <h3 class="login-title">Login</h3>
       <form class="form-inline" action="/api/login" method="POST">
         <div class="login-form">
           <label for="email">Enter login email:</label>
