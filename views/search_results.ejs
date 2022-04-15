@@ -22,7 +22,7 @@
     <p class='info'>Rating: <%= (Math.floor(result.rating * 100)/100).toFixed(2) %> / 5</p>
     <a class='info' href='<%= result.external_url %>'>CLICK ME FOR LINK!</a>
     <td>
-      <form method="GET" action="/favourites/<%=result.id%>">
+      <form method="GET" action="/api/search/<%=result.id%>">
         <button type="submit">Show Comments</button>
       </form>
     </td>
