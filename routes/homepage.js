@@ -24,7 +24,6 @@ module.exports = (db) => {
   };
 
   const increaseLikeCount = (resource_id) => {
-    // const testParam = `SELECT * FROM resources WHERE id = $1`;
     const stringParams = `
   UPDATE resources
   SET like_count = like_count + 1
@@ -32,8 +31,7 @@ module.exports = (db) => {
   RETURNING *
   `;
     return db.query(stringParams, [resource_id]).then(res => {
-      // console.log('res', res);
-      return res.rows
+      return res.rows;
     });
   };
 
@@ -49,7 +47,7 @@ module.exports = (db) => {
   };
 
   const getResourceData = () => {
-    console.log("/ route test here:")
+    console.log("/ route test here:");
     let resourceQuery = `SELECT resources.*, avg(rating) as rating
     FROM resources
     LEFT JOIN resource_reviews ON  resources.id = resource_id
@@ -57,8 +55,9 @@ module.exports = (db) => {
     ORDER BY resources.id DESC
     `;
     return db
-      .query(resourceQuery)
+      .query(resourceQuery);
   };
+
   const getUserName = (userID) => {
     const userNameQuery = ` SELECT name
     FROM users
@@ -68,17 +67,17 @@ module.exports = (db) => {
         return res.rows[0].name;
       }
       return null;
-    })
-  }
+    });
+  };
 
   router.get("/", (req, res) => {
     getUserName(req.session.userID)
-    .then(activeUser => {
-      getResourceData()
-        .then(results => {
-          res.render('index', { results, activeUser });
-        })
-    })
+      .then(activeUser => {
+        getResourceData()
+          .then(results => {
+            res.render('index', { results, activeUser });
+          });
+      });
   });
 
   const getLikes = (resourceLike) => {
@@ -105,38 +104,30 @@ module.exports = (db) => {
         const data = resultData[0];
         const comments = resultComments;
         const likes = resultLikes;
-        console.log('here', data);
-        console.log('--------', comments);
-        console.log("--------", likes);
         res.render('test', { data, comments, likes, id, activeUser });
       });
   });
 
   router.post('/:resource_id', (req, res) => {
-    console.log('+++++++++', req.body);
     const userID = req.session.userID;
     const resourceID = req.params.resource_id;
     const comment = req.body.comment;
-    console.log('--------', resourceID);
     addComment(userID, resourceID, comment);
-    res.redirect(`/index/${resourceID}`)
+    res.redirect(`/index/${resourceID}`);
   });
 
   router.post('/update/:resource_id', (req, res) => {
-    console.log('+++++++++', req.params.resource_id);
     const resourceID = req.params.resource_id;
     increaseLikeCount(resourceID)
       .then(results => {
-        console.log('Results: ', results)
         res.json({ results });
-      })
-    // res.redirect(/index/)
+      });
   });
 
   return router;
 
 
 
-}
+};
 
 

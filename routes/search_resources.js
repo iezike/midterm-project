@@ -16,6 +16,7 @@ module.exports = function (db) {
     `;
     return db.query(resourceQuery, [`%${text}%`])
   };
+  
   const getUserName = (userID) => {
     const userNameQuery = ` SELECT name
     FROM users

@@ -5,6 +5,7 @@ const router = express.Router();
 // Route to handle a user registeration form
 module.exports = function(db) {
   // Helper function
+
   const getEmail = function(email) {
     const queryStringEmail = `SELECT *
     FROM users
@@ -27,6 +28,7 @@ module.exports = function(db) {
   router.get('/', (req, res) => {
     res.render('register');
   });
+
   // Create a new user
   router.post('/', (req, res) => {
     const user = req.body;
@@ -49,13 +51,11 @@ module.exports = function(db) {
                 return;
               }
               const userID = result.rows[0];
-              console.log('^^^^^^^^', userID);
               req.session.userID = userID.id;
               res.redirect('/index');
             });
         }
       });
   });
-
   return router;
 };

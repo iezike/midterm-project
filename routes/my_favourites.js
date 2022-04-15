@@ -47,17 +47,8 @@ module.exports = (db) => {
   VALUES ($1, $2, $3)
   RETURNING *
   `;
-  return db.query(stringParams, [user_id, resource_id, comment]).then(res => res.rows);
-};
-
-  // const getUserName = (userId) => {
-  //   const queryString = `
-  //   SELECT name
-  //   FROM users
-  //   WHERE id = $1
-  //   `;
-  //   return db.query(queryString, [userId]);
-  // };
+    return db.query(stringParams, [user_id, resource_id, comment]).then(res => res.rows);
+  };
 
   const getSingleRequest = (id) => {
     const queryString = `
@@ -79,8 +70,8 @@ module.exports = (db) => {
         return res.rows[0].name;
       }
       return null;
-    })
-  }
+    });
+  };
 
   const getMyResources = (userID) => {
     let queryString = `
@@ -101,23 +92,19 @@ module.exports = (db) => {
   router.get('/', (req, res) => {
     const owner = req.session.userID;
     Promise
-    .all(([getUserName(owner),getMyResources(owner)]))
-    .then(([activeUser, results]) =>{
-      res.render('my_favourites', { results, activeUser});
-    })
+      .all(([getUserName(owner), getMyResources(owner)]))
+      .then(([activeUser, results]) => {
+        res.render('my_favourites', { results, activeUser });
+      });
   });
   router.get('/:resource_id', (req, res) => {
     let id = req.params.resource_id;
     let user = req.session.userID;
-    // console.log('id id:', id);
     Promise
       .all([getSingleRequest(id), getComments(id), getUserName(user)])
       .then(([resultData, resultComments, activeUser]) => {
-        console.log('resultdata', resultData);
         const data = resultData;
         const comments = resultComments;
-        console.log('data that shows', data);
-        console.log('--------', comments);
         res.render('test', { data, comments, id, activeUser });
       })
       .catch(err => {
@@ -128,7 +115,6 @@ module.exports = (db) => {
   });
 
   router.post('/:resource_id', (req, res) => {
-    console.log('+++++++++', req.body);
     const userID = req.session.userID;
     const resourceID = req.params.resource_id;
     const comment = req.body.comment;
@@ -138,7 +124,6 @@ module.exports = (db) => {
       .all([addComment(userID, resourceID, comment),
       addRating(userID, resourceID, rating)])
       .then(([resComment, resRating]) => {
-        console.log('*********', resComment[0].comment);
         if (resComment[0].comment === '') {
           return res.status(400).send('please enter some text');
         }
@@ -161,13 +146,9 @@ module.exports = (db) => {
   router.post('/:resource_id/remove_from_favourites', (req, res) => {
     const resourceID = req.params.resource_id;
     const userID = req.session.userID;
-
-    removeFomFavourites(resourceID)
+    removeFomFavourites(resourceID);
     res.redirect('/index');
   });
-
-
-
   return router;
 };
 
