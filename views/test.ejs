@@ -75,18 +75,18 @@
       <a class='info' href='<%= data.external_url %>'>CLICK ME FOR LINK!</a>
       <div class='number_of_likes_<%= data.id %>'><%= data.like_count %> likes </div>
     </div>
-      </div>
-      <div class="all-comments">
-        <h3>Comments</h3>
-          <% for (let comment of comments) { %>
-          <% if (comment.comment !== '' && comment.comment !== null  ) { %>
+    <div class="all-comments">
+      <h3>Comments</h3>
+      <% for (let comment of comments) { %>
+        <% if (comment.comment !== '' && comment.comment !== null  ) { %>
           <div class="single-comment">
             <p class="paragraph"><%=comment.comment%></p>
-          <span class="paragraph">Posted by: <%= comment.name%></span>
+            <span class="paragraph">Posted by: <%= comment.name%></span>
           </div>
           <% } %>
           <% } %>
 
+        </div>
         </div>
       </div>
       <% } %>
