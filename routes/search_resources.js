@@ -1,5 +1,6 @@
 const express = require('express');
 const { route } = require('express/lib/application');
+const { get } = require('express/lib/response');
 const res = require('express/lib/response');
 const router = express.Router();
 
@@ -36,13 +37,16 @@ module.exports = function (db) {
   })
   router.post('/', (req, res) => {
     const keySearch = req.body.searchText;
-    console.log(keySearch)
-    getSearchData(keySearch)
-    .then(results => {
-      if (results.rows.length === 0){
-        return res.status(403).send("No result found");
-      }
-      res.render('search_results', {results});
+    const userID = req.body.userID;
+    getUserName(userID)
+    .then(activeUser => {
+      getSearchData(keySearch)
+      .then(results => {
+        if (results.rows.length === 0){
+          return res.status(403).send("No result found");
+        }
+        res.render('search_results', {results, activeUser});
+      })
     })
   })
   return router;
