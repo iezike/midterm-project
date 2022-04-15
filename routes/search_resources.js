@@ -10,12 +10,13 @@ module.exports = function (db) {
   const getSearchData = (text) => {
     let resourceQuery = `SELECT title, description, topic, external_url, avg(rating) as rating
     FROM resources
-    JOIN resource_reviews ON  resources.id = resource_id
+    LEFT JOIN resource_reviews ON  resources.id = resource_id
     WHERE description LIKE $1 OR title LIKE $1 OR topic LIKE $1
     GROUP BY resources.id
     `;
     return db.query(resourceQuery, [`%${text}%`])
   };
+
   const getUserName = (userID) => {
     const userNameQuery = ` SELECT name
     FROM users

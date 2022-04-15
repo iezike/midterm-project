@@ -12,7 +12,7 @@ const router = express.Router();
 module.exports = (db) => {
   const addResource = (owner_id, title, description, topic, external_url) => {
     const queryString = `INSERT INTO resources (owner_id, title, description, topic, external_url)
-    VALUES ($1, $2, $3, $4, $5) RETURNING *`
+    VALUES ($1, $2, $3, $4, $5) RETURNING *`;
 
     return db.query(queryString, [owner_id, title, description, topic, external_url]);
   };
@@ -26,24 +26,24 @@ module.exports = (db) => {
         return res.rows[0].name;
       }
       return null;
-    })
-  }
+    });
+  };
 
-const addToFavourites = (user_id, resource_id) => {
-  const queryString =`
+  const addToFavourites = (user_id, resource_id) => {
+    const queryString = `
     INSERT INTO favourites (user_id, resource_id)
-    VALUES ($1, $2) RETURNING *`
+    VALUES ($1, $2) RETURNING *`;
 
 
-return db.query(queryString, [user_id, resource_id]);
-}
+    return db.query(queryString, [user_id, resource_id]);
+  };
 
   router.get('/add', (req, res) => {
-    const userID = req.session.userID
+    const userID = req.session.userID;
     getUserName(userID)
-    .then(activeUser => {
-      res.render('add_resources', {activeUser});
-    })
+      .then(activeUser => {
+        res.render('add_resources', { activeUser });
+      });
   });
 
 
@@ -56,26 +56,22 @@ return db.query(queryString, [user_id, resource_id]);
     const topic = resource.topic;
     const owner = req.session.userID;
     console.log('asdadad', owner);
-    if (!title || !description || !url || !topic || !owner){
-      return res.status(400).send('Please fill in all forms')
+    if (!title || !description || !url || !topic || !owner) {
+      return res.status(400).send('Please fill in all forms');
     }
     addResource(owner, title, description, topic, url)
       .then(result => {
-        console.log('are you my answer', result.rows[0]);
-        console.log('id', result.rows[0].id);
         addToFavourites(owner, result.rows[0].id)
-        .then(res => {
-          console.log('@@@@@@@@@@', res.rows);
-          return res.rows[0]
-        })
-        res.redirect('/')
-        })
-
-        .catch(err => {
-          res
+          .then(res => {
+            return res.rows[0];
+          });
+        res.redirect('/');
+      })
+      .catch(err => {
+        res
           .status(500)
           .json({ error: err.message });
-        });
+      });
   });
   return router;
 };
