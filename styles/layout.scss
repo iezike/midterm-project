@@ -20,6 +20,11 @@ html {
   padding: .7em;
 }
 
+.resource-data:hover {
+  cursor: pointer;
+  box-shadow: 5px 10px  #490b4993;
+}
+
 .resource-rating {
   display: flex;
   align-items: center;
